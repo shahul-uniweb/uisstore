@@ -50,12 +50,28 @@ export function LoadingScreen() {
                 />
               ))}
               <motion.div
-                initial={{ rotateY: 180, scale: 0, opacity: 0 }}
-                animate={{ rotateY: 0, scale: 1, opacity: 1 }}
-                transition={{ duration: 0.9, ease: "easeOut" }}
-                className="relative z-10 rounded-2xl bg-white/70 p-4 backdrop-blur-md shadow-glow"
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 grid h-28 w-28 place-items-center"
               >
-                <Logo className="h-20 w-20" />
+                {/* pulsing glow halo that highlights the logo */}
+                <motion.div
+                  aria-hidden
+                  className="col-start-1 row-start-1 h-full w-full rounded-full blur-2xl"
+                  style={{ background: "var(--gradient-brand)" }}
+                  animate={{ scale: [0.85, 1.15, 0.85], opacity: [0.45, 0.75, 0.45] }}
+                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                {/* gently floating logo, no background card */}
+                <motion.div
+                  className="col-start-1 row-start-1"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ filter: "drop-shadow(0 10px 30px rgba(230,28,131,0.45))" }}
+                >
+                  <Logo className="h-24 w-24" />
+                </motion.div>
               </motion.div>
             </div>
             <motion.p
