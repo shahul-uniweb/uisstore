@@ -63,7 +63,7 @@ export function FinalCta() {
             Get Your Store Today
           </a>
           <a href="https://wa.me/" className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-bold glass hover:shadow-soft transition" style={{ color: "var(--brand-deep)" }}>
-            Talk to Uniweb Team
+            Talk to UiS Store Team
           </a>
         </motion.div>
       </div>

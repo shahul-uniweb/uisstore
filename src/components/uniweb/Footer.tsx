@@ -23,7 +23,7 @@ export function Footer() {
                 <Logo className="h-9 w-9" />
               </div>
               <div>
-                <p className="font-extrabold text-lg">Uniweb IT Solutions</p>
+                <p className="font-extrabold text-lg">UiS Store</p>
                 <p className="text-xs text-white/70">E-Commerce Packages</p>
               </div>
             </div>
@@ -35,7 +35,7 @@ export function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-white/60 mb-3">Quick Links</p>
             <ul className="space-y-2 text-sm">
-              {["Features","Packages","Process","Why Uniweb","FAQ"].map((l) => (
+              {["Features","Packages","Process","Why UiS Store","FAQ"].map((l) => (
                 <li key={l}><a href={`#${l.toLowerCase().replace(/\s/g,"")}`} className="text-white/80 hover:text-white">{l}</a></li>
               ))}
             </ul>
@@ -53,7 +53,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/60">
-          <p>© {new Date().getFullYear()} Uniweb IT Solutions. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} UiS Store. All rights reserved.</p>
           <p>Crafted with ♥ for ambitious brands.</p>
         </div>
       </div>

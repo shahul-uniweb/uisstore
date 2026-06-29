@@ -8,7 +8,7 @@ const links = [
   { label: "Features", href: "#features" },
   { label: "Packages", href: "#packages" },
   { label: "Process", href: "#process" },
-  { label: "Why Uniweb", href: "#why" },
+  { label: "Why UiS Store", href: "#why" },
   { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
@@ -38,7 +38,7 @@ export function Navbar() {
           <a href="#home" className="flex items-center gap-2">
             <Logo className="h-9 w-9" />
             <span className="font-bold text-lg" style={{ color: "var(--brand-dark)" }}>
-              Uniweb
+              UiS Store
             </span>
           </a>
           <nav className="hidden lg:flex items-center gap-1">

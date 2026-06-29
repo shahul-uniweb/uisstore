@@ -36,7 +36,7 @@ export function Hero() {
               style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}
             >
               Launch Your Online Store with{" "}
-              <span className="text-gradient-brand">Uniweb</span>
+              <span className="text-gradient-brand">UiS Store</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}

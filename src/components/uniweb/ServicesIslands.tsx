@@ -27,7 +27,7 @@ export function ServicesIslands() {
                 <Cloud className="h-12 w-12 text-white" />
               </div>
             </motion.div>
-            <p className="mt-3 font-bold" style={{ color: "var(--brand-dark)" }}>Uniweb Cloud</p>
+            <p className="mt-3 font-bold" style={{ color: "var(--brand-dark)" }}>UiS Store Cloud</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">

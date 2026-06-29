@@ -21,7 +21,7 @@ export function WhyUniweb() {
         animate={{ y: [0, 40, 0] }} transition={{ duration: 10, repeat: Infinity }}
       />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        <SectionHeader eyebrow="Why Uniweb" title="Why Businesses Choose Uniweb" subtitle="The advantages that make Uniweb the partner for ambitious brands." />
+        <SectionHeader eyebrow="Why UiS Store" title="Why Businesses Choose UiS Store" subtitle="The advantages that make UiS Store the partner for ambitious brands." />
         <div className="mt-14 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* 3D collage */}
           <div className="relative h-[420px] sm:h-[480px]" style={{ perspective: "1200px" }}>

@@ -36,7 +36,7 @@ export function AdminDashboard() {
                   <span className="h-3 w-3 rounded-full bg-[#F9A349]" />
                   <span className="h-3 w-3 rounded-full bg-[#16A7E0]" />
                 </div>
-                <span className="text-xs font-semibold text-muted-foreground">store.uniweb.app/admin</span>
+                <span className="text-xs font-semibold text-muted-foreground">store.uisstore.app/admin</span>
                 <span className="text-xs font-bold text-[var(--brand-deep)]">Live</span>
               </div>
               {/* widgets grid */}

@@ -18,10 +18,10 @@ import { StickyMobileCta } from "@/components/uniweb/StickyMobileCta";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Uniweb IT Solutions — E-Commerce Packages" },
+      { title: "UiS Store — E-Commerce Packages" },
       { name: "description", content: "Mobile-first white-label e-commerce websites with payments, delivery, inventory and admin panel. Basic, Advanced and Premium packages." },
-      { property: "og:title", content: "Uniweb IT Solutions — E-Commerce Packages" },
-      { property: "og:description", content: "Launch your online store with Uniweb. Bilingual, secure, scalable e-commerce — built for growth." },
+      { property: "og:title", content: "UiS Store — E-Commerce Packages" },
+      { property: "og:description", content: "Launch your online store with UiS Store. Bilingual, secure, scalable e-commerce — built for growth." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
     ],
