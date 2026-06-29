@@ -1,0 +1,55 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { LoadingScreen } from "@/components/uniweb/LoadingScreen";
+import { Navbar } from "@/components/uniweb/Navbar";
+import { Hero } from "@/components/uniweb/Hero";
+import { FeatureOrbit } from "@/components/uniweb/FeatureOrbit";
+import { AdminDashboard } from "@/components/uniweb/AdminDashboard";
+import { ServicesIslands } from "@/components/uniweb/ServicesIslands";
+import { Packages } from "@/components/uniweb/Packages";
+import { Process } from "@/components/uniweb/Process";
+import { Operations } from "@/components/uniweb/Operations";
+import { CmsPages } from "@/components/uniweb/CmsPages";
+import { WhyUniweb } from "@/components/uniweb/WhyUniweb";
+import { Faq } from "@/components/uniweb/Faq";
+import { FinalCta } from "@/components/uniweb/FinalCta";
+import { Footer } from "@/components/uniweb/Footer";
+import { StickyMobileCta } from "@/components/uniweb/StickyMobileCta";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Uniweb IT Solutions — E-Commerce Packages" },
+      { name: "description", content: "Mobile-first white-label e-commerce websites with payments, delivery, inventory and admin panel. Basic, Advanced and Premium packages." },
+      { property: "og:title", content: "Uniweb IT Solutions — E-Commerce Packages" },
+      { property: "og:description", content: "Launch your online store with Uniweb. Bilingual, secure, scalable e-commerce — built for growth." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
+  component: Index,
+});
+
+function Index() {
+  return (
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <LoadingScreen />
+      <Navbar />
+      <main>
+        <Hero />
+        <FeatureOrbit />
+        <AdminDashboard />
+        <ServicesIslands />
+        <Packages />
+        <Process />
+        <Operations />
+        <CmsPages />
+        <WhyUniweb />
+        <Faq />
+        <FinalCta />
+      </main>
+      <Footer />
+      <StickyMobileCta />
+    </div>
+  );
+}
