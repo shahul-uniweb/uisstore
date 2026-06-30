@@ -37,6 +37,20 @@ const plans = [
   },
 ];
 
+const WHATSAPP_NUMBER = "96565702446";
+
+// Builds a WhatsApp click-to-chat link pre-filled with the selected plan's
+// name, price and feature list.
+function waPackageLink(p: (typeof plans)[number]) {
+  const price = p.price === "Custom" ? "Custom (Tailored Quote)" : `${p.price} ${p.unit}`;
+  const message =
+    `Hello UiS Store! 👋\n\n` +
+    `I'm interested in the *${p.name}* package (${price}).\n\n` +
+    `Features:\n${p.features.map((f) => `• ${f}`).join("\n")}\n\n` +
+    `Could you please share more details?`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
 export function Packages() {
   return (
     <section id="packages" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#FFFFFF 100%)" }}>
@@ -84,7 +98,7 @@ export function Packages() {
                   ))}
                 </ul>
                 <a
-                  href="https://wa.me/message/W47MG2LLOHCBJ1"
+                  href={waPackageLink(p)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-7 inline-flex justify-center items-center rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-glow hover:scale-[1.03] transition-transform"

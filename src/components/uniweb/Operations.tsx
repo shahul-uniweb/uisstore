@@ -56,9 +56,11 @@ export function Operations() {
                     transition={{ duration: 3 + j, repeat: Infinity, delay: j*0.3 }}
                   />
                 ))}
-                <Icon className="h-8 w-8 mb-4" />
-                <h3 className="text-xl font-bold">{p.title}</h3>
-                <p className="mt-2 text-sm text-white/85">{p.desc}</p>
+                <div className="min-h-[128px]">
+                  <Icon className="h-8 w-8 mb-4" />
+                  <h3 className="text-xl font-bold">{p.title}</h3>
+                  <p className="mt-2 text-sm text-white/85">{p.desc}</p>
+                </div>
 
                 <div className="mt-6 flex flex-col justify-center rounded-2xl bg-white/15 backdrop-blur-md p-4 border border-white/20 min-h-[150px]">
                   {p.visual === "payment" && <PaymentVisual />}
