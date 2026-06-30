@@ -30,7 +30,7 @@ export function Operations() {
   return (
     <section className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 50%,#EEF9FF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Operations" title="Built for Real E-Commerce Operations" subtitle="The unsexy details — handled beautifully so you can focus on selling." />
+        <SectionHeader eyebrow="Operations" title="Built for Real E-Commerce Operations" subtitle="The behind-the-scenes essentials, handled beautifully — so you can focus on selling." />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-3">
           {panels.map((p, i) => {
