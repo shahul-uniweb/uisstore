@@ -6,11 +6,8 @@ import { FeatureOrbit } from "@/components/uniweb/FeatureOrbit";
 import { AdminDashboard } from "@/components/uniweb/AdminDashboard";
 import { ServicesIslands } from "@/components/uniweb/ServicesIslands";
 import { Packages } from "@/components/uniweb/Packages";
-import { Process } from "@/components/uniweb/Process";
 import { Operations } from "@/components/uniweb/Operations";
 import { CmsPages } from "@/components/uniweb/CmsPages";
-import { WhyUniweb } from "@/components/uniweb/WhyUniweb";
-import { Faq } from "@/components/uniweb/Faq";
 import { FinalCta } from "@/components/uniweb/FinalCta";
 import { Footer } from "@/components/uniweb/Footer";
 import { StickyMobileCta } from "@/components/uniweb/StickyMobileCta";
@@ -41,11 +38,8 @@ function Index() {
         <AdminDashboard />
         <ServicesIslands />
         <Packages />
-        <Process />
         <Operations />
         <CmsPages />
-        <WhyUniweb />
-        <Faq />
         <FinalCta />
       </main>
       <Footer />

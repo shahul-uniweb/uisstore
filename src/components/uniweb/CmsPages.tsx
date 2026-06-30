@@ -12,7 +12,7 @@ const pages = [
 
 export function CmsPages() {
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "linear-gradient(180deg,#EEF9FF 0%,#FFFFFF 100%)" }}>
+    <section className="relative pt-12 pb-8 lg:pt-20 lg:pb-10 overflow-hidden" style={{ background: "linear-gradient(180deg,#EEF9FF 0%,#FFFFFF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="CMS Pages" title="Essential Pages Included" subtitle="Pre-built, fully editable pages — ready from day one." />
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -3,7 +3,7 @@ import { ShoppingBag, CreditCard, Truck, BarChart3, Globe, Plus } from "lucide-r
 
 export function Hero() {
   return (
-    <section id="home" className="relative pt-28 pb-20 lg:pt-36 lg:pb-32 overflow-hidden">
+    <section id="home" className="relative pt-28 pb-10 lg:pt-36 lg:pb-16 overflow-hidden">
       {/* animated bg */}
       <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#F3FBFF 60%,#FFFFFF 100%)" }} />
       <motion.div
@@ -13,7 +13,7 @@ export function Hero() {
         transition={{ duration: 12, repeat: Infinity }}
       />
       <motion.div
-        className="absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full opacity-40 blur-3xl -z-10"
+        className="absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full opacity-20 blur-3xl -z-10"
         style={{ background: "var(--gradient-blue)" }}
         animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
         transition={{ duration: 14, repeat: Infinity }}
@@ -24,11 +24,15 @@ export function Hero() {
           <div className="text-center lg:text-left">
             <motion.span
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold glass"
-              style={{ color: "var(--brand-magenta)" }}
+              className="inline-flex items-center rounded-full p-[1.5px] bg-gradient-brand animate-gradient shadow-glow"
             >
-              <span className="h-2 w-2 rounded-full bg-gradient-brand animate-pulse" />
-              White Label E-Commerce Solutions
+              <span
+                className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-1.5 text-xs font-bold backdrop-blur-sm"
+                style={{ color: "var(--brand-magenta)" }}
+              >
+                <span className="h-2 w-2 rounded-full bg-gradient-brand animate-pulse" />
+                White Label E-Commerce Solutions
+              </span>
             </motion.span>
             <motion.h1
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
@@ -51,7 +55,7 @@ export function Hero() {
               <a href="#packages" className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-brand shadow-glow hover:scale-[1.03] active:scale-95 transition-transform animate-gradient">
                 View Packages
               </a>
-              <a href="#contact" className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold glass hover:shadow-soft transition" style={{ color: "var(--brand-deep)" }}>
+              <a href="https://wa.me/message/W47MG2LLOHCBJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold glass hover:shadow-soft transition" style={{ color: "var(--brand-deep)" }}>
                 Book a Demo
               </a>
             </motion.div>
@@ -88,10 +92,10 @@ export function Hero() {
                   {[0,1,2,3].map((i) => (
                     <motion.div
                       key={i}
-                      animate={{ y: [0, -4, 0] }}
-                      transition={{ duration: 3 + i*0.2, repeat: Infinity, delay: i*0.2 }}
+                      animate={{ y: [0, -4] }}
+                      transition={{ duration: 2 + i*0.2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: i*0.2 }}
                       className="aspect-square rounded-xl"
-                      style={{ background: ["#FFF7FB","#EEF9FF","#F3FBFF","#FFF7FB"][i] }}
+                      style={{ background: ["#FFF7FB","#EEF9FF","#F3FBFF","#FFF7FB"][i], willChange: "transform" }}
                     >
                       <div className="h-1/2 rounded-t-xl" style={{ background: ["#E61C83","#16A7E0","#F9A349","#0D7ABD"][i], opacity: 0.85 }} />
                       <div className="p-1.5">
@@ -156,10 +160,10 @@ function FloatCard({ children, className = "", color, delay = 0 }: any) {
       className={`absolute z-10 ${className}`}
     >
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity, delay }}
+        animate={{ y: [0, -10] }}
+        transition={{ duration: 2.6, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay }}
         className="flex items-center gap-2 rounded-2xl px-3 py-2.5 shadow-2xl"
-        style={{ background: color, boxShadow: `0 20px 40px -10px ${color}80` }}
+        style={{ background: color, boxShadow: `0 20px 40px -10px ${color}80`, willChange: "transform" }}
       >
         {children}
       </motion.div>

@@ -28,7 +28,7 @@ const panels = [
 
 export function Operations() {
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "#FFFFFF" }}>
+    <section className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 50%,#EEF9FF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="Operations" title="Built for Real E-Commerce Operations" subtitle="The unsexy details — handled beautifully so you can focus on selling." />
 
@@ -60,7 +60,7 @@ export function Operations() {
                 <h3 className="text-xl font-bold">{p.title}</h3>
                 <p className="mt-2 text-sm text-white/85">{p.desc}</p>
 
-                <div className="mt-6 rounded-2xl bg-white/15 backdrop-blur-md p-4 border border-white/20 min-h-[150px]">
+                <div className="mt-6 flex flex-col justify-center rounded-2xl bg-white/15 backdrop-blur-md p-4 border border-white/20 min-h-[150px]">
                   {p.visual === "payment" && <PaymentVisual />}
                   {p.visual === "delivery" && <DeliveryVisual />}
                   {p.visual === "inventory" && <InventoryVisual />}
@@ -98,10 +98,28 @@ function DeliveryVisual() {
         <span>Order #1284</span>
         <span className="font-bold">Out for delivery</span>
       </div>
-      <div className="mt-3 relative h-1.5 rounded-full bg-white/20">
-        <motion.div initial={{ width: 0 }} whileInView={{ width: "75%" }} viewport={{ once: true }} transition={{ duration: 1.5 }} className="h-full bg-white rounded-full" />
-        <motion.div animate={{ left: ["0%", "75%"] }} transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }} className="absolute -top-1.5 -translate-x-1/2">
-          <Truck className="h-4 w-4" />
+      <div className="mt-3 relative h-2 rounded-full bg-white/20">
+        {/* progress fill */}
+        <motion.div
+          initial={{ width: "8%", opacity: 0 }}
+          animate={{ width: ["8%", "8%", "90%", "90%"], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", times: [0, 0.12, 0.82, 1] }}
+          className="h-full rounded-full bg-white"
+        />
+        {/* truck rides the tip of the fill (same curve = stays connected) */}
+        <motion.div
+          initial={{ left: "8%", opacity: 0 }}
+          animate={{ left: ["8%", "8%", "90%", "90%"], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", times: [0, 0.12, 0.82, 1] }}
+          className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <motion.span
+            animate={{ y: [0, -1.5, 0] }}
+            transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut" }}
+            className="flex items-center justify-center rounded-full bg-white p-1 shadow-md"
+          >
+            <Truck className="h-3 w-3" style={{ color: "#0D7ABD" }} />
+          </motion.span>
         </motion.div>
       </div>
       <div className="mt-3 flex items-center gap-2 text-xs bg-white/15 rounded-lg p-2">

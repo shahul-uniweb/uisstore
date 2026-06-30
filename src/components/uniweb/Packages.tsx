@@ -39,7 +39,7 @@ const plans = [
 
 export function Packages() {
   return (
-    <section id="packages" className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#FFFFFF 100%)" }}>
+    <section id="packages" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#FFFFFF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="Pricing" title="Choose the Right Package for Your Business" subtitle="Transparent pricing. Real e-commerce features. Built for Kuwait & beyond." />
         <div className="mt-14 grid gap-6 lg:gap-8 lg:grid-cols-3" style={{ perspective: "1400px" }}>
@@ -84,7 +84,9 @@ export function Packages() {
                   ))}
                 </ul>
                 <a
-                  href="#contact"
+                  href="https://wa.me/message/W47MG2LLOHCBJ1"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-7 inline-flex justify-center items-center rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-glow hover:scale-[1.03] transition-transform"
                   style={{ background: p.gradient }}
                 >

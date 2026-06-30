@@ -17,7 +17,7 @@ export function Process() {
   const lineHeight = useTransform(scrollYProgress, [0.1, 0.85], ["0%", "100%"]);
 
   return (
-    <section id="process" className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#EEF9FF 100%)" }}>
+    <section id="process" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#EEF9FF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="Our Process" title="From Idea to Online Store" subtitle="A clear path from kickoff to launch — guided by experts." />
 

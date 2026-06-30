@@ -7,9 +7,6 @@ const links = [
   { label: "Home", href: "#home" },
   { label: "Features", href: "#features" },
   { label: "Packages", href: "#packages" },
-  { label: "Process", href: "#process" },
-  { label: "Why UiS Store", href: "#why" },
-  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -37,7 +34,10 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <a href="#home" className="flex items-center gap-2">
             <Logo className="h-9 w-9" />
-            <span className="font-bold text-lg" style={{ color: "var(--brand-dark)" }}>
+            <span
+              className="text-xl font-bold tracking-tight"
+              style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}
+            >
               UiS Store
             </span>
           </a>
@@ -56,7 +56,7 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <a
               href="#packages"
-              className="hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand shadow-glow hover:scale-105 transition-transform"
+              className="hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand animate-gradient shadow-glow hover:scale-105 transition-transform"
             >
               Get Started
             </a>
@@ -95,7 +95,7 @@ export function Navbar() {
               <a
                 href="#packages"
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex justify-center items-center rounded-full px-5 py-3 text-base font-semibold text-white bg-gradient-brand shadow-glow"
+                className="mt-2 inline-flex justify-center items-center rounded-full px-5 py-3 text-base font-semibold text-white bg-gradient-brand animate-gradient shadow-glow"
               >
                 Get Started
               </a>

@@ -14,7 +14,7 @@ const benefits = [
 
 export function WhyUniweb() {
   return (
-    <section id="why" className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#FFF7FB 100%)" }}>
+    <section id="why" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFFFFF 0%,#FFF7FB 100%)" }}>
       <motion.div
         className="absolute -left-32 top-1/3 h-80 w-80 rounded-full blur-3xl opacity-50 -z-0"
         style={{ background: "var(--gradient-warm)" }}

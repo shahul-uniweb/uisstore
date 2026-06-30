@@ -17,7 +17,7 @@ const faqs = [
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#F3FBFF 100%)" }}>
+    <section id="faq" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#F3FBFF 100%)" }}>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="FAQ" title="Questions Before You Start?" subtitle="Answers to the most common questions about our packages." />
         <div className="mt-12 space-y-3">

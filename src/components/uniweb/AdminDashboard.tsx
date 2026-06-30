@@ -16,7 +16,7 @@ const widgets = [
 
 export function AdminDashboard() {
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden" style={{ background: "linear-gradient(180deg,#F3FBFF 0%,#FFF7FB 100%)" }}>
+    <section className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#F3FBFF 0%,#FFF7FB 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="Admin Control" title="Powerful Admin Panel to Manage Everything" subtitle="A complete back office for running your store — from products to promotions." />
         <div className="mt-14" style={{ perspective: "1400px" }}>
