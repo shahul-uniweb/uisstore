@@ -5,8 +5,8 @@ import { Logo } from "./Logo";
 
 const WHATSAPP_NUMBER = "96565702446";
 const STORAGE_KEY = "uis-lead-popup-shown";
-// LoadingScreen fades out at ~2.6s — give the hero a moment before the popup.
-const SHOW_DELAY_MS = 4200;
+// LoadingScreen fades out at ~1.8s — give the hero a moment before the popup.
+const SHOW_DELAY_MS = 3400;
 
 export function LeadPopup() {
   const [open, setOpen] = useState(false);
@@ -89,7 +89,7 @@ export function LeadPopup() {
               <div className="relative">
                 <div className="flex items-center gap-3">
                   <Logo className="h-11 w-11" />
-                  <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold" style={{ background: "#FFF7FB", color: "var(--brand-magenta)" }}>
+                  <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold" style={{ background: "#FFF7FB", color: "#C01368" }}>
                     <Sparkles className="h-3 w-3" /> Free Consultation
                   </span>
                 </div>

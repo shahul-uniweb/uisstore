@@ -6,9 +6,10 @@ export function LoadingScreen() {
   const [visible, setVisible] = useState(true);
   const [text, setText] = useState("Building Your Online Store...");
 
+  // Kept short: every extra ms here delays LCP in PageSpeed scoring.
   useEffect(() => {
-    const t1 = setTimeout(() => setText("Launching E-Commerce Experience"), 1400);
-    const t2 = setTimeout(() => setVisible(false), 2600);
+    const t1 = setTimeout(() => setText("Launching E-Commerce Experience"), 1000);
+    const t2 = setTimeout(() => setVisible(false), 1800);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 

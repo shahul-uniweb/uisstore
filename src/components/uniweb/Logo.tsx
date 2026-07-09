@@ -1,4 +1,4 @@
-import logoUrl from "@/assets/uis-store-logo-edited.png";
+import logoUrl from "@/assets/uis-store-logo-256.png";
 
 export function Logo({
   className = "h-10 w-10",
@@ -7,5 +7,15 @@ export function Logo({
   className?: string;
   alt?: string;
 }) {
-  return <img src={logoUrl} alt={alt} width={941} height={941} className={className} loading="eager" />;
+  return (
+    <img
+      src={logoUrl}
+      alt={alt}
+      width={256}
+      height={256}
+      className={className}
+      loading="eager"
+      fetchPriority="high"
+    />
+  );
 }

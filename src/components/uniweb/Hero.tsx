@@ -108,32 +108,32 @@ export function Hero() {
               </div>
             </motion.div>
 
-            {/* Floating cards */}
-            <FloatCard delay={0.6} className="top-4 -left-2 sm:-left-6" color="#E61C83">
+            {/* Floating cards — text colors chosen to pass WCAG 4.5:1 contrast on each bg */}
+            <FloatCard delay={0.6} className="top-4 -left-2 sm:-left-6" color="#D6146F">
               <ShoppingBag className="h-5 w-5 text-white" />
               <div>
-                <p className="text-[10px] text-white/80">Cart</p>
+                <p className="text-[10px] text-white">Cart</p>
                 <p className="text-sm font-bold text-white">3 items</p>
               </div>
             </FloatCard>
             <FloatCard delay={0.8} className="top-32 -right-2 sm:-right-6" color="#16A7E0">
-              <CreditCard className="h-5 w-5 text-white" />
+              <CreditCard className="h-5 w-5" style={{ color: "#101828" }} />
               <div>
-                <p className="text-[10px] text-white/80">Paid</p>
-                <p className="text-sm font-bold text-white">KWD 24.500</p>
+                <p className="text-[10px]" style={{ color: "#101828" }}>Paid</p>
+                <p className="text-sm font-bold" style={{ color: "#101828" }}>KWD 24.500</p>
               </div>
             </FloatCard>
             <FloatCard delay={1.0} className="bottom-24 -left-2 sm:-left-8" color="#F9A349">
-              <Truck className="h-5 w-5 text-white" />
+              <Truck className="h-5 w-5" style={{ color: "#101828" }} />
               <div>
-                <p className="text-[10px] text-white/80">Delivery</p>
-                <p className="text-sm font-bold text-white">On the way</p>
+                <p className="text-[10px]" style={{ color: "#101828" }}>Delivery</p>
+                <p className="text-sm font-bold" style={{ color: "#101828" }}>On the way</p>
               </div>
             </FloatCard>
             <FloatCard delay={1.2} className="bottom-6 -right-2 sm:-right-6" color="#0D7ABD">
               <BarChart3 className="h-5 w-5 text-white" />
               <div>
-                <p className="text-[10px] text-white/80">Sales</p>
+                <p className="text-[10px] text-white">Sales</p>
                 <p className="text-sm font-bold text-white">+38% ↑</p>
               </div>
             </FloatCard>
