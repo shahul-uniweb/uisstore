@@ -1,12 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { X, Phone, User, MessageCircle, Sparkles } from "lucide-react";
+import { X, Phone, User, MessageCircle, Sparkles, Gift } from "lucide-react";
 import { Logo } from "./Logo";
+import { getBrowserLocation, getIpLocation, saveLead } from "@/lib/firebase";
 
 const WHATSAPP_NUMBER = "96565702446";
+// localStorage (not session) → the popup is shown only ONCE per browser, ever.
 const STORAGE_KEY = "uis-lead-popup-shown";
 // LoadingScreen fades out at ~1.8s — give the hero a moment before the popup.
 const SHOW_DELAY_MS = 3400;
+
+// Capture IP + GPS location and persist the lead to Firestore in the background.
+async function captureAndSaveLead(name: string, mobile: string) {
+  const [ipLocation, browserGeo] = await Promise.all([getIpLocation(), getBrowserLocation()]);
+  await saveLead({ name, mobile, ipLocation, browserGeo });
+}
 
 export function LeadPopup() {
   const [open, setOpen] = useState(false);
@@ -15,7 +23,7 @@ export function LeadPopup() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (sessionStorage.getItem(STORAGE_KEY)) return;
+    if (localStorage.getItem(STORAGE_KEY)) return;
     const t = setTimeout(() => setOpen(true), SHOW_DELAY_MS);
     return () => clearTimeout(t);
   }, []);
@@ -34,7 +42,7 @@ export function LeadPopup() {
 
   const close = () => {
     setOpen(false);
-    sessionStorage.setItem(STORAGE_KEY, "1");
+    localStorage.setItem(STORAGE_KEY, "1");
   };
 
   const submit = (e: React.FormEvent) => {
@@ -49,8 +57,11 @@ export function LeadPopup() {
       `I'd like to know more about your e-commerce packages.\n\n` +
       `Name: ${name.trim() || "—"}\n` +
       `Mobile: ${mobile.trim()}\n\n` +
-      `Please contact me back.`;
+      `I'd also like to claim the first-10-customers discount. Please contact me back.`;
+    // Open WhatsApp synchronously so the browser keeps the user gesture (no popup block).
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+    // Capture location + save to Firestore in the background (module-level, survives unmount).
+    void captureAndSaveLead(name.trim(), mobile.trim());
     close();
   };
 
@@ -104,7 +115,18 @@ export function LeadPopup() {
                   Share your mobile number and our team will reach out with the perfect package for your business.
                 </p>
 
-                <form onSubmit={submit} className="mt-6 space-y-3">
+                {/* limited-time discount incentive */}
+                <div
+                  className="mt-4 flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white shadow-glow"
+                  style={{ background: "var(--gradient-warm)" }}
+                >
+                  <Gift className="h-5 w-5 shrink-0" />
+                  <p className="text-xs font-bold leading-tight">
+                    🎉 First 10 customers get an exclusive discount — be one of them!
+                  </p>
+                </div>
+
+                <form onSubmit={submit} className="mt-4 space-y-3">
                   <div className="relative">
                     <User className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <input

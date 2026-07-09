@@ -22,6 +22,7 @@ import "@fontsource/space-grotesk/700.css";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { initAnalytics, logVisit } from "../lib/firebase";
 
 function NotFoundComponent() {
   return (
@@ -165,6 +166,12 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Client-only: init Firebase Analytics and log the visitor's IP location once.
+  useEffect(() => {
+    void initAnalytics();
+    void logVisit();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
