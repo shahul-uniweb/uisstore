@@ -77,26 +77,63 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "UiS Store" },
-      { name: "description", content: "UiS Store creates modern, animated, mobile-first landing pages for e-commerce solutions." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "UiS Store" },
-      { property: "og:description", content: "UiS Store creates modern, animated, mobile-first landing pages for e-commerce solutions." },
+      { title: "E-Commerce Website Kuwait | Online Store Packages — UiS Store" },
+      {
+        name: "description",
+        content:
+          "UiS Store builds bilingual English & Arabic e-commerce websites in Kuwait with KNET payments, GCC delivery, inventory and admin panel. Packages from 450 K.D/year — hosting, domain & SSL included. By Uniweb IT Solutions.",
+      },
+      {
+        name: "keywords",
+        content:
+          "ecommerce website kuwait, online store kuwait, ecommerce kuwait, KNET payment gateway, arabic online store, e-commerce packages kuwait, uis store, uisstore, uniweb, uniweb it solutions, online shop kuwait, ecommerce website design kuwait, GCC delivery, متجر الكتروني الكويت",
+      },
+      { name: "author", content: "Uniweb IT Solutions" },
+      { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
+      { name: "theme-color", content: "#E61C83" },
+      // local SEO — Kuwait
+      { name: "geo.region", content: "KW" },
+      { name: "geo.placename", content: "Kuwait City" },
+      { name: "geo.position", content: "29.3759;47.9774" },
+      { name: "ICBM", content: "29.3759, 47.9774" },
+      // Open Graph
+      { property: "og:site_name", content: "UiS Store" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:locale:alternate", content: "ar_KW" },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://uisstore.net/" },
+      { property: "og:title", content: "E-Commerce Website Kuwait | Online Store Packages — UiS Store" },
+      {
+        property: "og:description",
+        content:
+          "Launch your online store in Kuwait: KNET payments, English & Arabic, GCC delivery, admin panel. Packages from 450 K.D/year with hosting, domain & SSL included.",
+      },
+      { property: "og:image", content: "https://uisstore.net/og-image.png" },
+      // Twitter
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "UiS Store" },
-      { name: "twitter:description", content: "UiS Store creates modern, animated, mobile-first landing pages for e-commerce solutions." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4d9886bb-100d-4de8-86c0-20bea2c5c8b0/id-preview-6a61c53d--39a2fd78-9e25-4181-b5ff-f78321914ecf.lovable.app-1780838238200.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4d9886bb-100d-4de8-86c0-20bea2c5c8b0/id-preview-6a61c53d--39a2fd78-9e25-4181-b5ff-f78321914ecf.lovable.app-1780838238200.png" },
+      { name: "twitter:site", content: "@uniweb008" },
+      { name: "twitter:title", content: "E-Commerce Website Kuwait | Online Store Packages — UiS Store" },
+      {
+        name: "twitter:description",
+        content:
+          "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. From 450 K.D/year — by Uniweb IT Solutions.",
+      },
+      { name: "twitter:image", content: "https://uisstore.net/og-image.png" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "canonical", href: "https://uisstore.net/" },
+      { rel: "alternate", hrefLang: "en", href: "https://uisstore.net/" },
+      { rel: "alternate", hrefLang: "x-default", href: "https://uisstore.net/" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
+      { rel: "dns-prefetch", href: "https://fonts.gstatic.com" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap",

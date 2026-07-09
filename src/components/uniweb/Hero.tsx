@@ -39,14 +39,14 @@ export function Hero() {
               className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight"
               style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Launch Your Online Store with{" "}
+              Launch Your Online Store in Kuwait with{" "}
               <span className="text-gradient-brand">UiS Store</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
               className="mt-5 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0"
             >
-              Mobile-first e-commerce websites with payment, delivery, inventory and a powerful admin panel — built for real businesses.
+              Mobile-first e-commerce websites with KNET payments, GCC delivery, inventory and a powerful admin panel — built for real businesses in Kuwait &amp; beyond.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}

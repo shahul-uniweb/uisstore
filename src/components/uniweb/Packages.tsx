@@ -1,6 +1,8 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { SectionHeader } from "./SectionHeader";
-import { Check, Sparkles } from "lucide-react";
+import { Check, FileDown, Sparkles, TableProperties, X } from "lucide-react";
+import brochurePdf from "@/assets/Uniweb Ecommerce Packages.pdf";
 
 const plans = [
   {
@@ -11,7 +13,19 @@ const plans = [
     cta: "Choose Basic",
     color: "#16A7E0",
     gradient: "linear-gradient(135deg,#0D7ABD 0%,#16A7E0 100%)",
-    features: ["Up to 500 Products", "English Language", "1 Payment Gateway", "Basic Delivery Integration", "1 Admin User", "Basic SEO Setup", "1 Month Support", "1 Training Session"],
+    features: [
+      "Up to 1000 Products",
+      "English & Arabic",
+      "1 Payment Gateway",
+      "0% Commissions",
+      "Inventory Management",
+      "Delivery Management",
+      "GCC Countries Delivery",
+      "10 Admin Users",
+      "Basic SEO Setup",
+      "Hosting",
+      "Domain & SSL Certificate",
+    ],
   },
   {
     name: "Advanced",
@@ -22,7 +36,19 @@ const plans = [
     badge: "Most Popular",
     color: "#E61C83",
     gradient: "linear-gradient(135deg,#E61C83 0%,#F9A349 45%,#16A7E0 100%)",
-    features: ["Up to 1000 Products", "English & Arabic", "2 Payment Gateways", "Advanced Delivery Integration", "Up to 3 Admin Users", "WhatsApp Integration", "Advanced Notifications", "3 Months Support", "2 Training Sessions"],
+    features: [
+      "Unlimited Products",
+      "English & Arabic",
+      "2 Payment Gateways",
+      "0% Commissions",
+      "Inventory Management",
+      "Delivery Management",
+      "GCC Countries Delivery",
+      "Unlimited Admin Users",
+      "Standard SEO Setup",
+      "Hosting",
+      "Domain & SSL Certificate",
+    ],
     featured: true,
   },
   {
@@ -33,8 +59,42 @@ const plans = [
     cta: "Contact for Premium",
     color: "#F9A349",
     gradient: "linear-gradient(135deg,#E61C83 0%,#F9A349 100%)",
-    features: ["Unlimited Products", "English & Arabic", "Multiple Payment Gateways", "Advanced + Custom Delivery", "Unlimited Admin Users", "Advanced SEO", "Advanced Notifications", "6 Months Support", "Multiple Training Sessions"],
+    features: [
+      "Unlimited Products",
+      "English & Arabic",
+      "Multiple Payment Gateways",
+      "0% Commissions",
+      "Store Management App",
+      "Point of Sales (P.O.S)",
+      "Inventory Management",
+      "Delivery Management",
+      "GCC Countries Delivery",
+      "Unlimited Admin Users",
+      "Advanced SEO Setup",
+      "Hosting",
+      "Domain & SSL Certificate",
+    ],
   },
+];
+
+// Detailed comparison — mirrors the printed brochure table.
+// `true` renders as an "Included" check; "—" renders as not included.
+const comparisonRows: { feature: string; values: (string | true)[] }[] = [
+  { feature: "Product Limit", values: ["Up to 1000", "Unlimited", "Unlimited"] },
+  { feature: "Store Management App", values: ["—", "—", true] },
+  { feature: "Language", values: ["English & Arabic", "English & Arabic", "English & Arabic"] },
+  { feature: "Payment Gateways", values: ["1 Gateway", "2 Gateways", "Multiple"] },
+  { feature: "Commissions", values: ["0%", "0%", "0%"] },
+  { feature: "Inventory Management", values: [true, true, true] },
+  { feature: "Delivery Management", values: [true, true, true] },
+  { feature: "Point of Sales (P.O.S)", values: ["—", "—", true] },
+  { feature: "GCC Countries Delivery", values: [true, true, true] },
+  { feature: "Admin Users", values: ["10 Admins", "Unlimited", "Unlimited"] },
+  { feature: "SEO Setup", values: ["Basic", "Standard", "Advanced"] },
+  { feature: "Technical Support", values: [true, true, true] },
+  { feature: "Hosting", values: [true, true, true] },
+  { feature: "Domain", values: [true, true, true] },
+  { feature: "SSL Certificate", values: [true, true, true] },
 ];
 
 const WHATSAPP_NUMBER = "96565702446";
@@ -51,7 +111,123 @@ function waPackageLink(p: (typeof plans)[number]) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
+function IncludedCheck({ gradient }: { gradient: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs font-semibold" style={{ color: "var(--brand-deep)" }}>
+      <span className="rounded-full p-0.5" style={{ background: gradient }}>
+        <Check className="h-3 w-3 text-white" strokeWidth={3} />
+      </span>
+      Included
+    </span>
+  );
+}
+
+function ComparisonModal({ onClose }: { onClose: () => void }) {
+  // lock page scroll + close on Escape while open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[80] flex items-center justify-center p-3 sm:p-6 bg-black/50 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 30, scale: 0.97 }}
+        transition={{ type: "spring", stiffness: 260, damping: 24 }}
+        className="w-full max-w-4xl rounded-3xl p-[2px] bg-gradient-brand shadow-glow"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex max-h-[85vh] flex-col overflow-hidden rounded-[1.4rem] bg-white">
+          {/* header */}
+          <div className="flex items-center justify-between gap-3 border-b px-5 py-4 sm:px-7">
+            <div>
+              <h3
+                className="text-lg sm:text-xl font-extrabold tracking-tight"
+                style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}
+              >
+                Detailed Package <span className="text-gradient-brand">Comparison</span>
+              </h3>
+              <p className="mt-0.5 text-xs text-muted-foreground lg:hidden">Swipe sideways to compare →</p>
+            </div>
+            <button
+              aria-label="Close comparison"
+              onClick={onClose}
+              className="shrink-0 rounded-full p-2 text-muted-foreground transition hover:bg-muted hover:text-foreground"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* scrollable table (vertical + horizontal on small screens) */}
+          <div className="overflow-auto">
+            <table className="w-full min-w-[640px] text-sm">
+              <thead>
+                <tr>
+                  <th className="sticky top-0 z-10 px-5 py-4 text-left text-xs font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-dark)" }}>
+                    Feature
+                  </th>
+                  {plans.map((p) => (
+                    <th key={p.name} className="sticky top-0 z-10 px-5 py-4 text-center text-xs font-bold uppercase tracking-widest text-white" style={{ background: p.gradient }}>
+                      {p.name}
+                      {p.featured && <span className="ml-1.5">★</span>}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map((row, i) => (
+                  <motion.tr
+                    key={row.feature}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.1 + i * 0.03 }}
+                    className={i % 2 ? "bg-[#F5FAFF]" : "bg-white"}
+                  >
+                    <td className="px-5 py-3.5 font-semibold" style={{ color: "var(--brand-dark)" }}>{row.feature}</td>
+                    {row.values.map((v, j) => (
+                      <td key={j} className="px-5 py-3.5 text-center text-foreground/80" style={plans[j].featured ? { background: "rgba(230,28,131,0.04)" } : undefined}>
+                        {v === true ? <IncludedCheck gradient={plans[j].gradient} /> : v}
+                      </td>
+                    ))}
+                  </motion.tr>
+                ))}
+                {/* price row */}
+                <tr className="border-t" style={{ borderColor: "rgba(16,24,40,0.08)" }}>
+                  <td className="px-5 py-4 font-extrabold" style={{ color: "var(--brand-dark)" }}>Price (per year)</td>
+                  {plans.map((p) => (
+                    <td key={p.name} className="px-5 py-4 text-center">
+                      <span className="text-lg font-extrabold" style={{ color: p.color, fontFamily: "'Space Grotesk', sans-serif" }}>
+                        {p.price === "Custom" ? "Custom" : `${p.price} KD`}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export function Packages() {
+  const [showComparison, setShowComparison] = useState(false);
+
   return (
     <section id="packages" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#FFFFFF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -110,7 +286,47 @@ export function Packages() {
             </motion.div>
           ))}
         </div>
+
+        {/* detailed comparison trigger */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mt-12 text-center"
+        >
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              onClick={() => setShowComparison(true)}
+              className="group inline-flex items-center rounded-full p-[2px] bg-gradient-brand animate-gradient shadow-glow transition-transform hover:scale-[1.03] active:scale-95"
+            >
+              <span
+                className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold"
+                style={{ color: "var(--brand-dark)" }}
+              >
+                <TableProperties className="h-4 w-4" style={{ color: "var(--brand-magenta)" }} />
+                View Detailed Comparison
+              </span>
+            </button>
+            <a
+              href={brochurePdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-white bg-gradient-brand animate-gradient shadow-glow transition-transform hover:scale-[1.03] active:scale-95"
+            >
+              <FileDown className="h-4 w-4" />
+              View Brochure (PDF)
+            </a>
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Compare all features side by side, or open the brochure to save and share.
+          </p>
+        </motion.div>
       </div>
+
+      <AnimatePresence>
+        {showComparison && <ComparisonModal onClose={() => setShowComparison(false)} />}
+      </AnimatePresence>
     </section>
   );
 }

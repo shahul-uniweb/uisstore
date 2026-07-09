@@ -3,15 +3,15 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
 
-const faqs = [
-  { q: "Which package is best for startups?", a: "The Basic package is built specifically for startups — up to 500 products, English store, 1 payment gateway and everything you need to launch." },
-  { q: "Do you support Arabic language stores?", a: "Yes — Advanced and Premium packages include full English & Arabic bilingual experiences with RTL support." },
-  { q: "Can payment gateways be integrated?", a: "Absolutely. KNET, Visa, MasterCard and other regional gateways are supported." },
-  { q: "Is delivery integration included?", a: "Yes — Basic ships with standard delivery integration; Advanced and Premium support advanced and custom courier integrations." },
-  { q: "Can I upgrade my product limit later?", a: "Yes — upgrade your package at any time and we'll migrate your store seamlessly." },
-  { q: "Is hosting included?", a: "All packages include 1 year of web hosting, domain registration and SSL certificate." },
-  { q: "Do you provide technical support?", a: "Yes — every package comes with technical support: 1, 3 or 6 months depending on the plan." },
-  { q: "Can I request custom features?", a: "Premium packages are fully custom — share your requirements and we'll quote a tailored build." },
+export const faqs = [
+  { q: "How much does an e-commerce website cost in Kuwait?", a: "UiS Store packages start at 450 K.D per year for the Basic package and 850 K.D per year for Advanced, with custom pricing for Premium. Every package includes hosting, domain, SSL certificate, delivery integration and 0% commission on your sales." },
+  { q: "What is UiS Store?", a: "UiS Store is a white-label e-commerce platform for building online stores in Kuwait and the GCC. It is a product of Uniweb IT Solutions, a Kuwait-based technology company with 8 years in the market, 60+ clients and 150+ delivered projects." },
+  { q: "Do you build online stores in Arabic?", a: "Yes — every UiS Store package includes a fully bilingual English & Arabic online store with RTL support, built for customers in Kuwait and across the GCC." },
+  { q: "Which payment gateways do you support in Kuwait?", a: "We integrate KNET, Visa, MasterCard and other regional payment gateways. The Basic package includes 1 gateway, Advanced includes 2, and Premium supports multiple custom gateways." },
+  { q: "Do you deliver outside Kuwait?", a: "Yes. All packages include delivery management with GCC countries delivery — Saudi Arabia, UAE, Qatar, Bahrain and Oman — so your online store can sell across the Gulf." },
+  { q: "Is hosting, domain and SSL included?", a: "Yes — one year of web hosting, domain registration and an SSL certificate are included in every package, along with technical support and website training." },
+  { q: "Do you provide a POS system or store management app?", a: "Yes — the Premium package includes a Point of Sales (P.O.S) system and a dedicated Store Management App, ideal for retail businesses in Kuwait that sell in-store and online." },
+  { q: "Can I upgrade my package later?", a: "Yes — you can upgrade from Basic to Advanced or Premium at any time and we'll migrate your online store seamlessly, with no downtime and no data loss." },
 ];
 
 export function Faq() {
