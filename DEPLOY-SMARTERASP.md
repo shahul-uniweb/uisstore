@@ -8,13 +8,20 @@ fields are what we target.
 
 | Field | Value |
 |---|---|
-| **Build Command** | `npm install --legacy-peer-deps && npm run build:node` |
+| **Build Command** | `npm run build-node` |
 | **Start Command** | `npm start` |
 | **Git Branch** | `main` |
 | **Node version** | **20 or higher** (set this in the panel — the build fails on older Node) |
 
-That's it. `npm start` runs `node dist/server/index.mjs`, which listens on `process.env.PORT`
+Enter **one command per field — no `&&` chaining**, the panel rejects that as invalid.
+You do not need to run `npm install` yourself: SmarterASP.NET runs it before the build step,
+and `.npmrc` makes it succeed without any flags.
+
+`npm start` runs `node dist/server/index.mjs`, which listens on `process.env.PORT`
 (SmarterASP.NET sets this) and serves both the SSR HTML and all static assets.
+
+> `build-node` and `build:node` are the same script — the colon-free name exists because some
+> panels reject `:` in a command.
 
 ## What each piece does
 
