@@ -32,14 +32,17 @@ export function ServicesIslands() {
                 className="group relative rounded-3xl border border-white p-5 shadow-soft transition-shadow hover:shadow-glow"
                 style={{ background: `linear-gradient(135deg,#ffffff 0%, ${s.color}12 100%)` }}
               >
-                <motion.div
-                  animate={{ y: [0, -6] }}
-                  transition={{ duration: 3 + (i % 3) * 0.4, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: i * 0.15 }}
-                  className="w-fit rounded-2xl p-3 transition-transform group-hover:scale-110"
-                  style={{ background: s.color, boxShadow: `0 12px 30px -8px ${s.color}80`, willChange: "transform" }}
+                <div
+                  className="animate-float-y-sm w-fit rounded-2xl p-3 transition-transform group-hover:scale-110"
+                  style={{
+                    background: s.color,
+                    boxShadow: `0 12px 30px -8px ${s.color}80`,
+                    animationDuration: `${3 + (i % 3) * 0.4}s`,
+                    animationDelay: `${i * 0.15}s`,
+                  }}
                 >
                   <Icon className="h-6 w-6 text-white" />
-                </motion.div>
+                </div>
                 <p className="mt-4 text-base font-bold" style={{ color: "var(--brand-dark)" }}>{s.label}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{s.note}</p>
                 <div
@@ -63,14 +66,12 @@ export function ServicesIslands() {
             style={{ background: "var(--gradient-blue)" }}
           >
             <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/20 blur-2xl" />
-            <motion.div
-              animate={{ y: [0, -6] }}
-              transition={{ duration: 4, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-              className="w-fit rounded-2xl bg-white/20 p-3 backdrop-blur"
-              style={{ willChange: "transform" }}
+            <div
+              className="animate-float-y-sm w-fit rounded-2xl bg-white/20 p-3 backdrop-blur"
+              style={{ animationDuration: "4s" }}
             >
               <Cloud className="h-6 w-6 text-white" />
-            </motion.div>
+            </div>
             <p className="mt-4 text-base font-bold">UiS Store Cloud</p>
             <p className="mt-1 text-xs text-white/80">All your services, managed in one place.</p>
           </motion.div>

@@ -1,3 +1,16 @@
+/* Fonts: latin subset only, imported here so Vite inlines the @font-face rules
+ * into this single stylesheet. Importing them from JS created a SECOND
+ * render-blocking CSS file plus a chained font download (the 4.8s critical path
+ * Lighthouse flagged), and the non-latin subsets were pure unused CSS. */
+@import "@fontsource/plus-jakarta-sans/latin-400.css";
+@import "@fontsource/plus-jakarta-sans/latin-500.css";
+@import "@fontsource/plus-jakarta-sans/latin-600.css";
+@import "@fontsource/plus-jakarta-sans/latin-700.css";
+@import "@fontsource/plus-jakarta-sans/latin-800.css";
+@import "@fontsource/space-grotesk/latin-500.css";
+@import "@fontsource/space-grotesk/latin-600.css";
+@import "@fontsource/space-grotesk/latin-700.css";
+
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -209,3 +222,104 @@
 @utility animate-gradient { background-size: 200% 200%; animation: gradient-shift 4s ease infinite; }
 @utility animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
 @utility animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+/* ---------------------------------------------------------------------------
+ * Compositor-driven looping animations.
+ *
+ * These replace framer-motion `animate={{...}} transition={{repeat: Infinity}}`
+ * loops. Framer-motion drives those from JS on every frame, which on a throttled
+ * mobile CPU was producing ~31s of main-thread work and 8.2s of Total Blocking
+ * Time. These only touch `transform` / `opacity`, so the browser runs them on the
+ * compositor thread — effectively free.
+ *
+ * Per-element variety (stagger, speed) is done with inline
+ * animationDelay / animationDuration, not extra classes.
+ * ------------------------------------------------------------------------- */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes float-y-sm {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, 25px); }
+}
+@keyframes drift-rev {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-25px, -20px); }
+}
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: translateY(0); }
+  50% { opacity: 0.6; transform: translateY(-12px); }
+}
+@keyframes flicker {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; }
+  50% { transform: scaleY(1.5); opacity: 1; }
+}
+@keyframes spin-ccw { to { transform: rotate(-360deg); } }
+/* Rising spark: per-element direction via --sx / --sy inline custom properties. */
+@keyframes spark {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translate(var(--sx, 0), var(--sy, 30px)) scale(0.3); opacity: 0; }
+}
+@keyframes float-rotate {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(45deg); }
+}
+
+@utility animate-float-y { animation: float-y 3s ease-in-out infinite; will-change: transform; }
+@utility animate-float-y-sm { animation: float-y-sm 3s ease-in-out infinite; will-change: transform; }
+@utility animate-drift { animation: drift 12s ease-in-out infinite; will-change: transform; }
+@utility animate-drift-rev { animation: drift-rev 14s ease-in-out infinite; will-change: transform; }
+@utility animate-pulse-scale { animation: pulse-scale 6s ease-in-out infinite; will-change: transform; }
+@utility animate-twinkle { animation: twinkle 4s ease-in-out infinite; }
+@utility animate-flicker { animation: flicker 0.25s ease-in-out infinite; will-change: transform, opacity; }
+@utility animate-spin-ccw { animation: spin-ccw 22s linear infinite; will-change: transform; }
+@utility animate-orbit { animation: spin-slow 22s linear infinite; will-change: transform; }
+@utility animate-float-rotate { animation: float-rotate 7s ease-in-out infinite; will-change: transform; }
+@utility animate-spark { animation: spark 1s ease-in infinite; will-change: transform, opacity; }
+
+/* Delivery panel: progress fill + the truck that rides its leading edge. Both use
+ * the same timing so they stay locked together. */
+@keyframes delivery-fill {
+  0%, 12% { width: 8%; }
+  82%, 100% { width: 90%; }
+}
+@keyframes delivery-truck {
+  0%, 12% { left: 8%; }
+  82%, 100% { left: 90%; }
+}
+@keyframes delivery-fade {
+  0% { opacity: 0; }
+  12%, 82% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes truck-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+@utility animate-delivery-fill {
+  animation: delivery-fill 3s ease-in-out infinite, delivery-fade 3s ease-in-out infinite;
+}
+@utility animate-delivery-truck {
+  animation: delivery-truck 3s ease-in-out infinite, delivery-fade 3s ease-in-out infinite;
+  will-change: left, opacity;
+}
+@utility animate-truck-bob { animation: truck-bob 0.5s ease-in-out infinite; }
+
+/* Users who ask for less motion get none of the looping animation cost. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

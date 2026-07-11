@@ -32,11 +32,9 @@ export function LoadingScreen() {
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
           style={{ background: "linear-gradient(135deg,#FFF7FB 0%,#F3FBFF 50%,#EEF9FF 100%)" }}
         >
-          <motion.div
-            className="absolute inset-0 opacity-40"
-            style={{ background: "var(--gradient-brand)", backgroundSize: "200% 200%" }}
-            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-            transition={{ duration: 4, repeat: Infinity }}
+          <div
+            className="animate-gradient absolute inset-0 opacity-40"
+            style={{ background: "var(--gradient-brand)" }}
           />
           <div className="relative flex flex-col items-center gap-8">
             <div className="relative h-48 w-48 flex items-center justify-center">
@@ -57,22 +55,18 @@ export function LoadingScreen() {
                 className="relative z-10 grid h-28 w-28 place-items-center"
               >
                 {/* pulsing glow halo that highlights the logo */}
-                <motion.div
+                <div
                   aria-hidden
-                  className="col-start-1 row-start-1 h-full w-full rounded-full blur-2xl"
-                  style={{ background: "var(--gradient-brand)" }}
-                  animate={{ scale: [0.85, 1.15, 0.85], opacity: [0.45, 0.75, 0.45] }}
-                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                  className="animate-pulse-scale col-start-1 row-start-1 h-full w-full rounded-full blur-2xl opacity-60"
+                  style={{ background: "var(--gradient-brand)", animationDuration: "2.4s" }}
                 />
                 {/* gently floating logo, no background card */}
-                <motion.div
-                  className="col-start-1 row-start-1"
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                  className="animate-float-y-sm col-start-1 row-start-1"
                   style={{ filter: "drop-shadow(0 10px 30px rgba(230,28,131,0.45))" }}
                 >
                   <Logo className="h-24 w-24" />
-                </motion.div>
+                </div>
               </motion.div>
             </div>
             <motion.p
@@ -86,12 +80,14 @@ export function LoadingScreen() {
             </motion.p>
             <div className="flex gap-2">
               {[0, 1, 2].map((i) => (
-                <motion.span
+                <span
                   key={i}
-                  className="h-2 w-2 rounded-full"
-                  style={{ background: ["#E61C83", "#F9A349", "#16A7E0"][i] }}
-                  animate={{ scale: [1, 1.6, 1], opacity: [0.4, 1, 0.4] }}
-                  transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+                  className="animate-pulse-scale h-2 w-2 rounded-full"
+                  style={{
+                    background: ["#E61C83", "#F9A349", "#16A7E0"][i],
+                    animationDuration: "1.2s",
+                    animationDelay: `${i * 0.2}s`,
+                  }}
                 />
               ))}
             </div>

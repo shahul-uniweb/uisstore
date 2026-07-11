@@ -9,17 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-// Self-hosted fonts (bundled + cached same-origin) — replaces the
-// render-blocking Google Fonts request chain flagged by PageSpeed.
-import "@fontsource/plus-jakarta-sans/400.css";
-import "@fontsource/plus-jakarta-sans/500.css";
-import "@fontsource/plus-jakarta-sans/600.css";
-import "@fontsource/plus-jakarta-sans/700.css";
-import "@fontsource/plus-jakarta-sans/800.css";
-import "@fontsource/space-grotesk/500.css";
-import "@fontsource/space-grotesk/600.css";
-import "@fontsource/space-grotesk/700.css";
-
+// Fonts are @imported inside styles.css (latin subset) so they land in ONE
+// stylesheet — importing them here produced a second render-blocking CSS file.
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { initAnalytics, logVisit } from "../lib/firebase";
@@ -142,6 +133,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "alternate", hrefLang: "x-default", href: "https://uisstore.net/" },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "apple-touch-icon", href: "/favicon.png" },
+      // Warm up the origins the deferred Firebase / IP-lookup calls will hit.
+      { rel: "preconnect", href: "https://firestore.googleapis.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://ipwho.is", crossOrigin: "anonymous" },
     ],
   }),
   shellComponent: RootShell,
@@ -168,9 +162,31 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   // Client-only: init Firebase Analytics and log the visitor's IP location once.
+  //
+  // Deferred until the page has loaded AND the main thread is idle. Firing these
+  // on mount pulled in the Firebase SDK + Google Tag Manager (~142 KB) during the
+  // critical render, which was a large chunk of the Total Blocking Time. Analytics
+  // and visit logging don't need to be immediate — a couple of seconds late is fine.
   useEffect(() => {
-    void initAnalytics();
-    void logVisit();
+    let cancelled = false;
+
+    const run = () => {
+      if (cancelled) return;
+      const idle = window.requestIdleCallback ?? ((cb: IdleRequestCallback) => setTimeout(cb, 1));
+      idle(() => {
+        if (cancelled) return;
+        void initAnalytics();
+        void logVisit();
+      });
+    };
+
+    if (document.readyState === "complete") run();
+    else window.addEventListener("load", run, { once: true });
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", run);
+    };
   }, []);
 
   return (

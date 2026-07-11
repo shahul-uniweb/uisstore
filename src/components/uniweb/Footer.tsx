@@ -85,12 +85,18 @@ export function Footer() {
         { c: "#16A7E0", x: "72%", y: "72%", s: 50 },
         { c: "#0D7ABD", x: "22%", y: "82%", s: 40 },
       ].map((b, i) => (
-        <motion.div
+        <div
           key={i}
-          className="absolute rounded-2xl opacity-15"
-          style={{ left: b.x, top: b.y, width: b.s, height: b.s, background: b.c, filter: "blur(2px)" }}
-          animate={{ y: [0, -15, 0], rotate: [0, 45, 0] }}
-          transition={{ duration: 6 + i, repeat: Infinity }}
+          className="animate-float-rotate absolute rounded-2xl opacity-15"
+          style={{
+            left: b.x,
+            top: b.y,
+            width: b.s,
+            height: b.s,
+            background: b.c,
+            filter: "blur(2px)",
+            animationDuration: `${6 + i}s`,
+          }}
         />
       ))}
 

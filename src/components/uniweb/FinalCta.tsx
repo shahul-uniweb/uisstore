@@ -48,74 +48,60 @@ export function FinalCta() {
         {/* rocket + orbit scene */}
         <motion.div className="relative mx-auto h-64 w-64 sm:h-72 sm:w-72 mb-6" style={{ scale: sceneScale }}>
           {/* soft glowing core */}
-          <motion.div
-            className="absolute inset-10 rounded-full blur-2xl opacity-40"
-            style={{ background: "var(--gradient-brand)" }}
-            animate={{ scale: [1, 1.15, 1] }}
-            transition={{ duration: 4, repeat: Infinity }}
+          <div
+            className="animate-pulse-scale absolute inset-10 rounded-full blur-2xl opacity-40"
+            style={{ background: "var(--gradient-brand)", animationDuration: "4s" }}
           />
           {/* orbit rings — outer one rotates with scroll */}
           <motion.div className="absolute inset-0 rounded-full border border-dashed" style={{ borderColor: "rgba(16,24,40,0.12)", rotate: ringRotate }} />
           <div className="absolute inset-10 rounded-full border" style={{ borderColor: "rgba(16,24,40,0.08)" }} />
 
-          {/* orbiting icons */}
-          <motion.div
-            className="absolute inset-0"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-          >
+          {/* orbiting icons — CSS spin, inner counter-spin keeps them upright */}
+          <div className="animate-orbit absolute inset-0">
             {orbitIcons.map(({ Icon, color }, i) => (
               <div
                 key={i}
                 className="absolute left-1/2 top-1/2"
                 style={{ transform: `rotate(${i * 90}deg) translateX(clamp(7.5rem, 32vw, 8.5rem)) rotate(-${i * 90}deg)` }}
               >
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-                  className="-ml-5 -mt-5 rounded-2xl p-2.5 shadow-glow"
+                <div
+                  className="animate-spin-ccw -ml-5 -mt-5 rounded-2xl p-2.5 shadow-glow"
                   style={{ background: color }}
                 >
                   <Icon className="h-5 w-5 text-white" />
-                </motion.div>
+                </div>
               </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* rocket rides the scroll */}
           <motion.div className="absolute left-1/2 top-1/2 -ml-[44px] -mt-[44px]" style={{ y: rocketY, willChange: "transform" }}>
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
-            >
+            <div className="animate-float-y relative" style={{ animationDuration: "2.2s" }}>
               {/* flickering exhaust */}
-              <motion.div
-                animate={{ scaleY: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 0.25, repeat: Infinity }}
-                className="absolute left-1/2 -bottom-10 -translate-x-1/2 w-10 h-14 rounded-b-full"
+              <div
+                className="animate-flicker absolute left-1/2 -bottom-10 -translate-x-1/2 w-10 h-14 rounded-b-full"
                 style={{ background: "linear-gradient(180deg,#F9A349 0%,#E61C83 100%)", filter: "blur(8px)" }}
               />
               <div className="rounded-3xl p-5 bg-gradient-brand shadow-glow animate-pulse-glow">
                 <Rocket className="h-12 w-12 text-white -rotate-45" />
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* rising sparks */}
           {[...Array(6)].map((_, i) => (
-            <motion.span
+            <span
               key={i}
-              className="absolute left-1/2 bottom-14 h-1.5 w-1.5 rounded-full"
-              style={{ background: ["#F9A349", "#E61C83", "#16A7E0", "#0D7ABD"][i % 4] }}
-              initial={{ opacity: 0 }}
-              animate={{
-                y: [0, 30 + (i % 3) * 12],
-                x: [0, (i % 2 ? 1 : -1) * (8 + i * 3)],
-                opacity: [0, 1, 0],
-                scale: [1, 0.3],
-              }}
-              transition={{ duration: 0.9 + (i % 3) * 0.2, repeat: Infinity, delay: i * 0.14, ease: "easeIn" }}
+              className="animate-spark absolute left-1/2 bottom-14 h-1.5 w-1.5 rounded-full"
+              style={
+                {
+                  background: ["#F9A349", "#E61C83", "#16A7E0", "#0D7ABD"][i % 4],
+                  "--sx": `${(i % 2 ? 1 : -1) * (8 + i * 3)}px`,
+                  "--sy": `${30 + (i % 3) * 12}px`,
+                  animationDuration: `${0.9 + (i % 3) * 0.2}s`,
+                  animationDelay: `${i * 0.14}s`,
+                } as React.CSSProperties
+              }
             />
           ))}
         </motion.div>

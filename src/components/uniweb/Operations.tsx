@@ -48,12 +48,15 @@ export function Operations() {
               >
                 {/* floating particles */}
                 {[0,1,2].map((j) => (
-                  <motion.span
+                  <span
                     key={j}
-                    className="absolute h-2 w-2 rounded-full bg-white/40"
-                    style={{ top: `${20 + j*25}%`, left: `${10 + j*30}%` }}
-                    animate={{ y: [0, -20, 0], opacity: [0.4, 1, 0.4] }}
-                    transition={{ duration: 3 + j, repeat: Infinity, delay: j*0.3 }}
+                    className="animate-twinkle absolute h-2 w-2 rounded-full bg-white/40"
+                    style={{
+                      top: `${20 + j*25}%`,
+                      left: `${10 + j*30}%`,
+                      animationDuration: `${3 + j}s`,
+                      animationDelay: `${j * 0.3}s`,
+                    }}
                   />
                 ))}
                 <div className="min-h-[128px]">
@@ -87,9 +90,9 @@ function PaymentVisual() {
         </div>
         <Lock className="h-4 w-4 text-emerald-600" />
       </motion.div>
-      <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity }} className="text-center text-xs font-bold py-2 rounded-lg bg-emerald-400/30 border border-emerald-300/50">
+      <div className="animate-pulse-scale text-center text-xs font-bold py-2 rounded-lg bg-emerald-400/30 border border-emerald-300/50" style={{ animationDuration: "2s" }}>
         ✓ Payment Successful
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -102,27 +105,13 @@ function DeliveryVisual() {
       </div>
       <div className="mt-3 relative h-2 rounded-full bg-white/20">
         {/* progress fill */}
-        <motion.div
-          initial={{ width: "8%", opacity: 0 }}
-          animate={{ width: ["8%", "8%", "90%", "90%"], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", times: [0, 0.12, 0.82, 1] }}
-          className="h-full rounded-full bg-white"
-        />
-        {/* truck rides the tip of the fill (same curve = stays connected) */}
-        <motion.div
-          initial={{ left: "8%", opacity: 0 }}
-          animate={{ left: ["8%", "8%", "90%", "90%"], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", times: [0, 0.12, 0.82, 1] }}
-          className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <motion.span
-            animate={{ y: [0, -1.5, 0] }}
-            transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut" }}
-            className="flex items-center justify-center rounded-full bg-white p-1 shadow-md"
-          >
+        <div className="animate-delivery-fill h-full rounded-full bg-white" />
+        {/* truck rides the tip of the fill (same timing = stays connected) */}
+        <div className="animate-delivery-truck absolute top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <span className="animate-truck-bob flex items-center justify-center rounded-full bg-white p-1 shadow-md">
             <Truck className="h-3 w-3" style={{ color: "#0D7ABD" }} />
-          </motion.span>
-        </motion.div>
+          </span>
+        </div>
       </div>
       <div className="mt-3 flex items-center gap-2 text-xs bg-white/15 rounded-lg p-2">
         <MapPin className="h-3.5 w-3.5" />

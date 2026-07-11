@@ -27,32 +27,27 @@ export function FeatureOrbit() {
           "radial-gradient(circle at center, rgba(230,28,131,0.10), transparent 35%), radial-gradient(circle at right, rgba(22,167,224,0.12), transparent 40%), linear-gradient(180deg,#ffffff 0%,#f3fbff 100%)",
       }}
     >
-      {/* Decorative floating blobs + particles (mobile-friendly) */}
+      {/* Decorative floating blobs + particles — CSS-driven (compositor, not JS) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden -z-0">
-        <motion.div
-          className="absolute top-6 -left-12 h-56 w-56 rounded-full blur-3xl opacity-25"
+        <div
+          className="animate-drift absolute top-6 -left-12 h-56 w-56 rounded-full blur-3xl opacity-25"
           style={{ background: "radial-gradient(circle,#E61C83,transparent 70%)" }}
-          animate={{ x: [0, 20, 0], y: [0, 30, 0] }}
-          transition={{ duration: 10, repeat: Infinity }}
         />
-        <motion.div
-          className="absolute bottom-10 -right-10 h-64 w-64 rounded-full blur-3xl opacity-40"
+        <div
+          className="animate-drift-rev absolute bottom-10 -right-10 h-64 w-64 rounded-full blur-3xl opacity-40"
           style={{ background: "radial-gradient(circle,#16A7E0,transparent 70%)" }}
-          animate={{ x: [0, -20, 0], y: [0, -25, 0] }}
-          transition={{ duration: 12, repeat: Infinity }}
         />
         {[...Array(14)].map((_, i) => (
-          <motion.span
+          <span
             key={i}
-            className="absolute h-1.5 w-1.5 rounded-full"
+            className="animate-twinkle absolute h-1.5 w-1.5 rounded-full"
             style={{
               top: `${(i * 53) % 100}%`,
               left: `${(i * 37) % 100}%`,
               background: ["#E61C83", "#F9A349", "#16A7E0", "#0D7ABD"][i % 4],
-              opacity: 0.4,
+              animationDuration: `${3 + (i % 4)}s`,
+              animationDelay: `${i * 0.2}s`,
             }}
-            animate={{ y: [0, -12, 0], opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 3 + (i % 4), repeat: Infinity, delay: i * 0.2 }}
           />
         ))}
       </div>
@@ -77,18 +72,17 @@ export function FeatureOrbit() {
             transition={{ duration: 0.8, type: "spring" }}
             className="relative mx-2"
           >
-            <motion.div
+            <div
               aria-hidden
-              className="absolute -inset-3 rounded-[3rem] opacity-40 blur-2xl"
-              style={{ background: "conic-gradient(from 0deg,#E61C83,#F9A349,#16A7E0,#0D7ABD,#E61C83)" }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+              className="animate-spin-slow absolute -inset-3 rounded-[3rem] opacity-40 blur-2xl"
+              style={{
+                background: "conic-gradient(from 0deg,#E61C83,#F9A349,#16A7E0,#0D7ABD,#E61C83)",
+                animationDuration: "14s",
+              }}
             />
-            <motion.div
-              animate={{ y: [0, -10] }}
-              transition={{ duration: 3.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-              className="relative w-52 h-[26rem] rounded-[2.4rem] bg-[var(--brand-dark)] p-1.5 shadow-glow"
-              style={{ willChange: "transform" }}
+            <div
+              className="animate-float-y relative w-52 h-[26rem] rounded-[2.4rem] bg-[var(--brand-dark)] p-1.5 shadow-glow"
+              style={{ animationDuration: "3.5s" }}
             >
               <div className="absolute top-2.5 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-[var(--brand-dark)] z-10" />
               <div className="h-full w-full rounded-[2rem] bg-white p-3 pt-7 flex flex-col gap-2 overflow-hidden">
@@ -106,7 +100,7 @@ export function FeatureOrbit() {
                 </div>
                 <div className="h-9 rounded-xl bg-gradient-warm" />
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* right column */}
@@ -128,12 +122,7 @@ export function FeatureOrbit() {
             className="relative mx-auto w-40"
           >
             <div className="absolute inset-0 rounded-[2rem] bg-gradient-brand blur-2xl opacity-40" />
-            <motion.div
-              animate={{ y: [0, -8] }}
-              transition={{ duration: 3, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-              className="relative w-40 h-72 rounded-[2rem] bg-[var(--brand-dark)] p-1.5 shadow-glow"
-              style={{ willChange: "transform" }}
-            >
+            <div className="animate-float-y-sm relative w-40 h-72 rounded-[2rem] bg-[var(--brand-dark)] p-1.5 shadow-glow">
               <div className="absolute top-2 left-1/2 -translate-x-1/2 h-4 w-16 rounded-full bg-[var(--brand-dark)] z-10" />
               <div className="h-full w-full rounded-[1.7rem] bg-white p-2 pt-6 flex flex-col gap-1.5 overflow-hidden">
                 <div className="h-16 rounded-xl bg-gradient-brand flex items-end p-2">
@@ -154,7 +143,7 @@ export function FeatureOrbit() {
                 </div>
                 <div className="h-6 rounded-lg bg-gradient-warm" />
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* clean 2-column feature grid */}
@@ -212,12 +201,13 @@ function FeatureRow({
       transition={{ delay: i * 0.08, duration: 0.5 }}
       className="group relative"
     >
-      <motion.div
-        animate={{ y: [0, -6] }}
-        transition={{ duration: 3 + (i % 3) * 0.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: i * 0.2 }}
-        whileHover={{ scale: 1.03 }}
-        className={`relative flex items-center gap-4 rounded-2xl border border-white p-4 shadow-soft transition-shadow group-hover:shadow-glow ${isLeft ? "flex-row-reverse text-right" : "text-left"}`}
-        style={{ background: `linear-gradient(135deg,#ffffff 0%, ${f.color}12 100%)`, willChange: "transform" }}
+      <div
+        className={`animate-float-y-sm relative flex items-center gap-4 rounded-2xl border border-white p-4 shadow-soft transition-all hover:scale-[1.03] group-hover:shadow-glow ${isLeft ? "flex-row-reverse text-right" : "text-left"}`}
+        style={{
+          background: `linear-gradient(135deg,#ffffff 0%, ${f.color}12 100%)`,
+          animationDuration: `${3 + (i % 3) * 0.5}s`,
+          animationDelay: `${i * 0.2}s`,
+        }}
       >
         <span
           className="shrink-0 rounded-xl p-2.5 transition-transform group-hover:scale-110"
@@ -239,7 +229,7 @@ function FeatureRow({
           className={`absolute top-1/2 h-px w-10 -translate-y-1/2 ${isLeft ? "right-0 translate-x-full" : "left-0 -translate-x-full"}`}
           style={{ background: `linear-gradient(${isLeft ? "90deg" : "270deg"}, ${f.color}, transparent)` }}
         />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

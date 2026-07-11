@@ -6,17 +6,13 @@ export function Hero() {
     <section id="home" className="relative pt-28 pb-10 lg:pt-36 lg:pb-16 overflow-hidden">
       {/* animated bg */}
       <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#F3FBFF 60%,#FFFFFF 100%)" }} />
-      <motion.div
-        className="absolute -top-32 -left-32 h-96 w-96 rounded-full opacity-40 blur-3xl -z-10"
+      <div
+        className="animate-drift absolute -top-32 -left-32 h-96 w-96 rounded-full opacity-40 blur-3xl -z-10"
         style={{ background: "var(--gradient-warm)" }}
-        animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
-        transition={{ duration: 12, repeat: Infinity }}
       />
-      <motion.div
-        className="absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full opacity-20 blur-3xl -z-10"
+      <div
+        className="animate-drift-rev absolute -bottom-40 -right-32 h-[28rem] w-[28rem] rounded-full opacity-20 blur-3xl -z-10"
         style={{ background: "var(--gradient-blue)" }}
-        animate={{ x: [0, -30, 0], y: [0, -20, 0] }}
-        transition={{ duration: 14, repeat: Infinity }}
       />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -70,10 +66,9 @@ export function Hero() {
 
           {/* 3D Scene */}
           <div className="relative h-[480px] sm:h-[540px] mx-auto w-full max-w-lg" style={{ perspective: "1200px" }}>
-            <motion.div
-              className="absolute inset-0 rounded-[3rem] opacity-50 blur-3xl"
+            <div
+              className="animate-pulse-scale absolute inset-0 rounded-[3rem] opacity-50 blur-3xl"
               style={{ background: "var(--gradient-brand)" }}
-              animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 6, repeat: Infinity }}
             />
             {/* Phone */}
             <motion.div
@@ -90,19 +85,21 @@ export function Hero() {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {[0,1,2,3].map((i) => (
-                    <motion.div
+                    <div
                       key={i}
-                      animate={{ y: [0, -4] }}
-                      transition={{ duration: 2 + i*0.2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: i*0.2 }}
-                      className="aspect-square rounded-xl"
-                      style={{ background: ["#FFF7FB","#EEF9FF","#F3FBFF","#FFF7FB"][i], willChange: "transform" }}
+                      className="animate-float-y-sm aspect-square rounded-xl"
+                      style={{
+                        background: ["#FFF7FB","#EEF9FF","#F3FBFF","#FFF7FB"][i],
+                        animationDuration: `${2 + i * 0.2}s`,
+                        animationDelay: `${i * 0.2}s`,
+                      }}
                     >
                       <div className="h-1/2 rounded-t-xl" style={{ background: ["#E61C83","#16A7E0","#F9A349","#0D7ABD"][i], opacity: 0.85 }} />
                       <div className="p-1.5">
                         <div className="h-1.5 w-3/4 rounded bg-foreground/20 mb-1" />
                         <div className="h-1.5 w-1/2 rounded bg-foreground/10" />
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -159,14 +156,17 @@ function FloatCard({ children, className = "", color, delay = 0 }: any) {
       transition={{ delay, duration: 0.6, type: "spring" }}
       className={`absolute z-10 ${className}`}
     >
-      <motion.div
-        animate={{ y: [0, -10] }}
-        transition={{ duration: 2.6, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay }}
-        className="flex items-center gap-2 rounded-2xl px-3 py-2.5 shadow-2xl"
-        style={{ background: color, boxShadow: `0 20px 40px -10px ${color}80`, willChange: "transform" }}
+      <div
+        className="animate-float-y flex items-center gap-2 rounded-2xl px-3 py-2.5 shadow-2xl"
+        style={{
+          background: color,
+          boxShadow: `0 20px 40px -10px ${color}80`,
+          animationDuration: "2.6s",
+          animationDelay: `${delay}s`,
+        }}
       >
         {children}
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
