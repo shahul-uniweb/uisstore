@@ -12,10 +12,11 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // so Lovable keeps using its default cloudflare-module target untouched.
 const isVercel = !!process.env.VERCEL;
 
-// STATIC=1 produces a fully prerendered static site (index.html + assets) into
-// ./output/public — for hosting on plain static/IIS servers like SmarterASP.NET,
-// which cannot run a Node SSR server. Leaves the Vercel/Cloudflare paths untouched.
-const isStatic = !!process.env.STATIC;
+// NITRO_PRESET=node-server (set by `npm run build:node`) targets a plain Node.js
+// host — e.g. SmarterASP.NET / IIS+iisnode — instead of the default Cloudflare
+// worker target. Produces a standalone server at .output/server/index.mjs that
+// listens on process.env.PORT.
+const isNodeServer = process.env.NITRO_PRESET === "node-server";
 
 export default defineConfig({
   ...(isVercel
@@ -30,21 +31,10 @@ export default defineConfig({
         },
       }
     : {}),
-  ...(isStatic
-    ? {
-        nitro: {
-          preset: "static",
-          prerender: {
-            routes: ["/"],
-            crawlLinks: true,
-          },
-        },
-      }
-    : {}),
+  ...(isNodeServer ? { nitro: { preset: "node-server" } } : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
-    ...(isStatic ? { prerender: { enabled: true }, spa: { enabled: true } } : {}),
   },
 });
