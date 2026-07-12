@@ -96,17 +96,17 @@
   --input: oklch(0.92 0.02 240);
   --ring: oklch(0.68 0.18 220);
   /* Uniweb brand palette */
-  --brand-magenta: #E61C83;
-  --brand-orange: #F9A349;
-  --brand-sky: #16A7E0;
-  --brand-deep: #0D7ABD;
+  --brand-magenta: #e61c83;
+  --brand-orange: #f9a349;
+  --brand-sky: #16a7e0;
+  --brand-deep: #0d7abd;
   --brand-dark: #101828;
-  --soft-pink: #FFF7FB;
-  --soft-sky: #F3FBFF;
-  --soft-blue: #EEF9FF;
-  --gradient-brand: linear-gradient(135deg, #E61C83 0%, #F9A349 45%, #16A7E0 100%);
-  --gradient-blue: linear-gradient(135deg, #0D7ABD 0%, #16A7E0 100%);
-  --gradient-warm: linear-gradient(135deg, #E61C83 0%, #F9A349 100%);
+  --soft-pink: #fff7fb;
+  --soft-sky: #f3fbff;
+  --soft-blue: #eef9ff;
+  --gradient-brand: linear-gradient(135deg, #e61c83 0%, #f9a349 45%, #16a7e0 100%);
+  --gradient-blue: linear-gradient(135deg, #0d7abd 0%, #16a7e0 100%);
+  --gradient-warm: linear-gradient(135deg, #e61c83 0%, #f9a349 100%);
   --shadow-glow: 0 20px 60px -20px rgba(230, 28, 131, 0.35);
   --shadow-soft: 0 10px 40px -10px rgba(13, 122, 189, 0.25);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -167,11 +167,13 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    font-family: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @utility text-gradient-brand {
@@ -180,48 +182,97 @@
   background-clip: text;
   color: transparent;
 }
-@utility bg-gradient-brand { background-image: var(--gradient-brand); }
-@utility bg-gradient-blue { background-image: var(--gradient-blue); }
-@utility bg-gradient-warm { background-image: var(--gradient-warm); }
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+@utility bg-gradient-blue {
+  background-image: var(--gradient-blue);
+}
+@utility bg-gradient-warm {
+  background-image: var(--gradient-warm);
+}
 @utility glass {
-  background: rgba(255,255,255,0.45);
+  background: rgba(255, 255, 255, 0.45);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 @utility glass-dark {
   background: rgba(16, 24, 40, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
-@utility shadow-glow { box-shadow: var(--shadow-glow); }
-@utility shadow-soft { box-shadow: var(--shadow-soft); }
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
 
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-20px) rotate(3deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-20px) rotate(3deg);
+  }
 }
 @keyframes float-medium {
-  0%, 100% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-15px) translateX(8px); }
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-15px) translateX(8px);
+  }
 }
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 30px rgba(230,28,131,0.4); }
-  50% { box-shadow: 0 0 60px rgba(22,167,224,0.6); }
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(230, 28, 131, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(22, 167, 224, 0.6);
+  }
 }
-@keyframes spin-slow { to { transform: rotate(360deg); } }
-@keyframes draw-line { to { stroke-dashoffset: 0; } }
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
 
-@utility animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
-@utility animate-float-medium { animation: float-medium 4s ease-in-out infinite; }
-@utility animate-gradient { background-size: 200% 200%; animation: gradient-shift 4s ease infinite; }
-@utility animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
-@utility animate-spin-slow { animation: spin-slow 20s linear infinite; }
+@utility animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+@utility animate-float-medium {
+  animation: float-medium 4s ease-in-out infinite;
+}
+@utility animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+@utility animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+@utility animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
 
 /* ---------------------------------------------------------------------------
  * Compositor-driven looping animations.
@@ -236,90 +287,205 @@
  * animationDelay / animationDuration, not extra classes.
  * ------------------------------------------------------------------------- */
 @keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 @keyframes float-y-sm {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 @keyframes drift {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(30px, 25px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, 25px);
+  }
 }
 @keyframes drift-rev {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-25px, -20px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-25px, -20px);
+  }
 }
 @keyframes pulse-scale {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.12); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
 }
 @keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: translateY(0); }
-  50% { opacity: 0.6; transform: translateY(-12px); }
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-12px);
+  }
 }
 @keyframes flicker {
-  0%, 100% { transform: scaleY(1); opacity: 0.5; }
-  50% { transform: scaleY(1.5); opacity: 1; }
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1.5);
+    opacity: 1;
+  }
 }
-@keyframes spin-ccw { to { transform: rotate(-360deg); } }
+@keyframes spin-ccw {
+  to {
+    transform: rotate(-360deg);
+  }
+}
 /* Rising spark: per-element direction via --sx / --sy inline custom properties. */
 @keyframes spark {
-  0% { transform: translate(0, 0) scale(1); opacity: 0; }
-  25% { opacity: 1; }
-  100% { transform: translate(var(--sx, 0), var(--sy, 30px)) scale(0.3); opacity: 0; }
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--sx, 0), var(--sy, 30px)) scale(0.3);
+    opacity: 0;
+  }
 }
 @keyframes float-rotate {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(45deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(45deg);
+  }
 }
 
-@utility animate-float-y { animation: float-y 3s ease-in-out infinite; will-change: transform; }
-@utility animate-float-y-sm { animation: float-y-sm 3s ease-in-out infinite; will-change: transform; }
-@utility animate-drift { animation: drift 12s ease-in-out infinite; will-change: transform; }
-@utility animate-drift-rev { animation: drift-rev 14s ease-in-out infinite; will-change: transform; }
-@utility animate-pulse-scale { animation: pulse-scale 6s ease-in-out infinite; will-change: transform; }
-@utility animate-twinkle { animation: twinkle 4s ease-in-out infinite; }
-@utility animate-flicker { animation: flicker 0.25s ease-in-out infinite; will-change: transform, opacity; }
-@utility animate-spin-ccw { animation: spin-ccw 22s linear infinite; will-change: transform; }
-@utility animate-orbit { animation: spin-slow 22s linear infinite; will-change: transform; }
-@utility animate-float-rotate { animation: float-rotate 7s ease-in-out infinite; will-change: transform; }
-@utility animate-spark { animation: spark 1s ease-in infinite; will-change: transform, opacity; }
+@utility animate-float-y {
+  animation: float-y 3s ease-in-out infinite;
+  will-change: transform;
+}
+@utility animate-float-y-sm {
+  animation: float-y-sm 3s ease-in-out infinite;
+  will-change: transform;
+}
+@utility animate-drift {
+  animation: drift 12s ease-in-out infinite;
+  will-change: transform;
+}
+@utility animate-drift-rev {
+  animation: drift-rev 14s ease-in-out infinite;
+  will-change: transform;
+}
+@utility animate-pulse-scale {
+  animation: pulse-scale 6s ease-in-out infinite;
+  will-change: transform;
+}
+@utility animate-twinkle {
+  animation: twinkle 4s ease-in-out infinite;
+}
+@utility animate-flicker {
+  animation: flicker 0.25s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@utility animate-spin-ccw {
+  animation: spin-ccw 22s linear infinite;
+  will-change: transform;
+}
+@utility animate-orbit {
+  animation: spin-slow 22s linear infinite;
+  will-change: transform;
+}
+@utility animate-float-rotate {
+  animation: float-rotate 7s ease-in-out infinite;
+  will-change: transform;
+}
+@utility animate-spark {
+  animation: spark 1s ease-in infinite;
+  will-change: transform, opacity;
+}
 
 /* Delivery panel: progress fill + the truck that rides its leading edge. Both use
  * the same timing so they stay locked together. */
 @keyframes delivery-fill {
-  0%, 12% { width: 8%; }
-  82%, 100% { width: 90%; }
-}
-@keyframes delivery-truck {
-  0%, 12% { left: 8%; }
-  82%, 100% { left: 90%; }
-}
-@keyframes delivery-fade {
-  0% { opacity: 0; }
-  12%, 82% { opacity: 1; }
-  100% { opacity: 0; }
-}
-@keyframes truck-bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.5px); }
-}
-@utility animate-delivery-fill {
-  animation: delivery-fill 3s ease-in-out infinite, delivery-fade 3s ease-in-out infinite;
-}
-@utility animate-delivery-truck {
-  animation: delivery-truck 3s ease-in-out infinite, delivery-fade 3s ease-in-out infinite;
-  will-change: left, opacity;
-}
-@utility animate-truck-bob { animation: truck-bob 0.5s ease-in-out infinite; }
-
-/* Users who ask for less motion get none of the looping animation cost. */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  0%,
+  12% {
+    width: 8%;
+  }
+  82%,
+  100% {
+    width: 90%;
   }
 }
+@keyframes delivery-truck {
+  0%,
+  12% {
+    left: 8%;
+  }
+  82%,
+  100% {
+    left: 90%;
+  }
+}
+@keyframes delivery-fade {
+  0% {
+    opacity: 0;
+  }
+  12%,
+  82% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes truck-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+@utility animate-delivery-fill {
+  animation:
+    delivery-fill 3s ease-in-out infinite,
+    delivery-fade 3s ease-in-out infinite;
+}
+@utility animate-delivery-truck {
+  animation:
+    delivery-truck 3s ease-in-out infinite,
+    delivery-fade 3s ease-in-out infinite;
+  will-change: left, opacity;
+}
+@utility animate-truck-bob {
+  animation: truck-bob 0.5s ease-in-out infinite;
+}
+
+/* NOTE: a blanket `prefers-reduced-motion: reduce` override used to live here and
+ * froze every brand animation (orbit, rocket, floats) on any machine with
+ * "reduce motion" enabled — which is the default on plenty of Windows installs.
+ * These animations are core to the brand, and the previous framer-motion versions
+ * never honoured the preference either, so it is deliberately not re-applied. */

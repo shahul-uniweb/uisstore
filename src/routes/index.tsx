@@ -45,8 +45,8 @@ const structuredData = {
       description:
         "White-label e-commerce website packages in Kuwait: bilingual English & Arabic online stores with KNET payments, GCC delivery, inventory management and admin panel.",
       url: SITE,
-      logo: `${SITE}/og-image.png`,
-      image: `${SITE}/og-image.png`,
+      logo: `${SITE}/favicon.png`,
+      image: `${SITE}/og-image.jpg`,
       telephone: "+96565702446",
       email: "contact@uniwebonline.com",
       priceRange: "450 K.D - Custom",
@@ -94,7 +94,12 @@ const structuredData = {
               "Up to 1000 products, English & Arabic, 1 payment gateway, 0% commissions, inventory & delivery management, GCC delivery, 10 admin users, basic SEO, hosting, domain & SSL.",
             price: "450",
             priceCurrency: "KWD",
-            priceSpecification: { "@type": "UnitPriceSpecification", price: "450", priceCurrency: "KWD", unitText: "per year" },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "450",
+              priceCurrency: "KWD",
+              unitText: "per year",
+            },
           },
           {
             "@type": "Offer",
@@ -103,7 +108,12 @@ const structuredData = {
               "Unlimited products, English & Arabic, 2 payment gateways, 0% commissions, inventory & delivery management, GCC delivery, unlimited admin users, standard SEO, hosting, domain & SSL.",
             price: "850",
             priceCurrency: "KWD",
-            priceSpecification: { "@type": "UnitPriceSpecification", price: "850", priceCurrency: "KWD", unitText: "per year" },
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "850",
+              priceCurrency: "KWD",
+              unitText: "per year",
+            },
           },
           {
             "@type": "Offer",
@@ -135,7 +145,10 @@ export const Route = createFileRoute("/")({
         content:
           "Build your online store in Kuwait with UiS Store: bilingual English & Arabic e-commerce websites with KNET payments, GCC delivery, inventory management and a powerful admin panel. Packages from 450 K.D/year — hosting, domain & SSL included. By Uniweb IT Solutions.",
       },
-      { property: "og:title", content: "E-Commerce Website Kuwait | Online Store Packages from 450 K.D — UiS Store" },
+      {
+        property: "og:title",
+        content: "E-Commerce Website Kuwait | Online Store Packages from 450 K.D — UiS Store",
+      },
       {
         property: "og:description",
         content:

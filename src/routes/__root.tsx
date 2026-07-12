@@ -92,7 +92,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "ecommerce website kuwait, online store kuwait, ecommerce kuwait, KNET payment gateway, arabic online store, e-commerce packages kuwait, uis store, uisstore, uniweb, uniweb it solutions, online shop kuwait, ecommerce website design kuwait, GCC delivery, متجر الكتروني الكويت",
       },
       { name: "author", content: "Uniweb IT Solutions" },
-      { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
       { name: "theme-color", content: "#E61C83" },
       // local SEO — Kuwait
       { name: "geo.region", content: "KW" },
@@ -105,23 +108,46 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale:alternate", content: "ar_KW" },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://uisstore.net/" },
-      { property: "og:title", content: "E-Commerce Website Kuwait | Online Store Packages — UiS Store" },
+      {
+        property: "og:title",
+        content: "E-Commerce Website Kuwait | Online Store Packages — UiS Store",
+      },
       {
         property: "og:description",
         content:
           "Launch your online store in Kuwait: KNET payments, English & Arabic, GCC delivery, admin panel. Packages from 450 K.D/year with hosting, domain & SSL included.",
       },
-      { property: "og:image", content: "https://uisstore.net/og-image.png" },
-      // Twitter
-      { name: "twitter:card", content: "summary" },
+      // Social share preview card (1200x630). The width/height/type hints let
+      // WhatsApp, Facebook and LinkedIn lay the card out before the image finishes
+      // downloading — without them some clients fall back to a tiny thumbnail.
+      { property: "og:image", content: "https://uisstore.net/og-image.jpg" },
+      { property: "og:image:secure_url", content: "https://uisstore.net/og-image.jpg" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content:
+          "UiS Store by Uniweb IT Solutions — e-commerce websites in Kuwait from 450 K.D per year",
+      },
+      // Twitter — must be summary_large_image, or X renders a small square thumbnail.
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@uniweb008" },
-      { name: "twitter:title", content: "E-Commerce Website Kuwait | Online Store Packages — UiS Store" },
+      {
+        name: "twitter:title",
+        content: "E-Commerce Website Kuwait | Online Store Packages — UiS Store",
+      },
       {
         name: "twitter:description",
         content:
           "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. From 450 K.D/year — by Uniweb IT Solutions.",
       },
-      { name: "twitter:image", content: "https://uisstore.net/og-image.png" },
+      { name: "twitter:image", content: "https://uisstore.net/og-image.jpg" },
+      {
+        name: "twitter:image:alt",
+        content:
+          "UiS Store by Uniweb IT Solutions — e-commerce websites in Kuwait from 450 K.D per year",
+      },
     ],
     links: [
       {
