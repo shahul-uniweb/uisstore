@@ -315,8 +315,11 @@
 }
 @utility animate-truck-bob { animation: truck-bob 0.5s ease-in-out infinite; }
 
-/* NOTE: a blanket `prefers-reduced-motion: reduce` override used to live here and
- * froze every brand animation (orbit, rocket, floats) on any machine with
- * "reduce motion" enabled — which is the default on plenty of Windows installs.
- * These animations are core to the brand, and the previous framer-motion versions
- * never honoured the preference either, so it is deliberately not re-applied. */
+/* Users who ask for less motion get none of the looping animation cost. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

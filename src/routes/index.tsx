@@ -45,8 +45,8 @@ const structuredData = {
       description:
         "White-label e-commerce website packages in Kuwait: bilingual English & Arabic online stores with KNET payments, GCC delivery, inventory management and admin panel.",
       url: SITE,
-      logo: `${SITE}/favicon.png`,
-      image: `${SITE}/og-image.jpg`,
+      logo: `${SITE}/og-image.png`,
+      image: `${SITE}/og-image.png`,
       telephone: "+96565702446",
       email: "contact@uniwebonline.com",
       priceRange: "450 K.D - Custom",
