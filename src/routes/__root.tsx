@@ -120,8 +120,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Social share preview card (1200x630). The width/height/type hints let
       // WhatsApp, Facebook and LinkedIn lay the card out before the image finishes
       // downloading — without them some clients fall back to a tiny thumbnail.
-      { property: "og:image", content: "https://uisstore.net/og-image.jpg" },
-      { property: "og:image:secure_url", content: "https://uisstore.net/og-image.jpg" },
+      { property: "og:image", content: "https://uisstore.net/og-image-v2.jpg" },
+      { property: "og:image:secure_url", content: "https://uisstore.net/og-image-v2.jpg" },
       { property: "og:image:type", content: "image/jpeg" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -142,7 +142,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. From 250 K.D/year — by Uniweb IT Solutions.",
       },
-      { name: "twitter:image", content: "https://uisstore.net/og-image.jpg" },
+      { name: "twitter:image", content: "https://uisstore.net/og-image-v2.jpg" },
       {
         name: "twitter:image:alt",
         content:
