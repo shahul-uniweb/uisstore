@@ -279,17 +279,17 @@ export async function logVisit(): Promise<void> {
     const device = parseUserAgent(navigator.userAgent);
     const source = detectSource(document.referrer || "", location.search);
 
-    // Only the IP lookup is awaited (fast, ~200ms) so browser/os/device/source
-    // are always captured and the write isn't blocked. Exact GPS is captured on
-    // form submissions (leads), not on every visit — that keeps visit logging
-    // fast and avoids prompting every visitor for location.
-    const ipLocation = await getIpLocation();
+    // Ask the visitor for their exact location (browser prompt). IP is always
+    // captured; exact GPS is stored separately when they allow it, so the map can
+    // show a precise pin instead of the approximate IP city. device/os/source
+    // are computed above and written regardless of the geolocation outcome.
+    const [ipLocation, browserGeo] = await Promise.all([getIpLocation(), getBrowserLocation()]);
 
     const db = await getDb();
     const { collection, addDoc, serverTimestamp } = await import("firebase/firestore/lite");
     await addDoc(collection(db, "visits"), {
       ipLocation: ipLocation ?? null,
-      browserGeo: null,
+      browserGeo: browserGeo ?? null,
       visitorId,
       isReturning,
       source,
