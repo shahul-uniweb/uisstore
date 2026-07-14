@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShoppingBag, CreditCard, Truck, BarChart3, Globe, Plus } from "lucide-react";
+import { openLeadForm } from "@/lib/lead-form";
 
 export function Hero() {
   return (
@@ -51,9 +52,9 @@ export function Hero() {
               <a href="#packages" className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-brand shadow-glow hover:scale-[1.03] active:scale-95 transition-transform animate-gradient">
                 View Packages
               </a>
-              <a href="https://wa.me/message/W47MG2LLOHCBJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold glass hover:shadow-soft transition" style={{ color: "var(--brand-deep)" }}>
+              <button type="button" onClick={openLeadForm} className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold glass hover:shadow-soft transition" style={{ color: "var(--brand-deep)" }}>
                 Book a Demo
-              </a>
+              </button>
             </motion.div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} className="mt-8 flex items-center gap-6 justify-center lg:justify-start text-xs text-muted-foreground">
               <div><span className="font-bold text-foreground text-lg">100+</span> Stores Launched</div>

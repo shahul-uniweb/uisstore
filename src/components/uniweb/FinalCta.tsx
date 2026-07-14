@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Rocket, ShoppingBag, CreditCard, Package, Globe, MessageCircle, ArrowRight } from "lucide-react";
+import { openLeadForm } from "@/lib/lead-form";
 
 const orbitIcons = [
   { Icon: ShoppingBag, color: "#E61C83" },
@@ -151,13 +152,15 @@ export function FinalCta() {
           transition={{ delay: 0.45 }}
           className="mt-8 flex flex-col sm:flex-row gap-3 justify-center"
         >
-          <a
-            href="#packages"
+          <button
+            type="button"
+            onClick={openLeadForm}
             className="group inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-white bg-gradient-brand animate-gradient shadow-glow animate-pulse-glow hover:scale-[1.03] transition-transform"
           >
             Get Your Store Today
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </button>
+          {/* The ONLY direct-to-WhatsApp CTA on the site. */}
           <a
             href="https://wa.me/message/W47MG2LLOHCBJ1"
             target="_blank"

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { SectionHeader } from "./SectionHeader";
 import { Check, FileDown, Sparkles, TableProperties, X } from "lucide-react";
 import brochurePdf from "@/assets/Uniweb Ecommerce Packages.pdf";
+import { openLeadForm } from "@/lib/lead-form";
 
 const plans = [
   {
@@ -96,20 +97,6 @@ const comparisonRows: { feature: string; values: (string | true)[] }[] = [
   { feature: "Domain", values: [true, true, true] },
   { feature: "SSL Certificate", values: [true, true, true] },
 ];
-
-const WHATSAPP_NUMBER = "96565702446";
-
-// Builds a WhatsApp click-to-chat link pre-filled with the selected plan's
-// name, price and feature list.
-function waPackageLink(p: (typeof plans)[number]) {
-  const price = p.price === "Custom" ? "Custom (Tailored Quote)" : `${p.price} ${p.unit}`;
-  const message =
-    `Hello UiS Store! 👋\n\n` +
-    `I'm interested in the *${p.name}* package (${price}).\n\n` +
-    `Features:\n${p.features.map((f) => `• ${f}`).join("\n")}\n\n` +
-    `Could you please share more details?`;
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-}
 
 function IncludedCheck({ gradient }: { gradient: string }) {
   return (
@@ -273,15 +260,14 @@ export function Packages() {
                     </motion.li>
                   ))}
                 </ul>
-                <a
-                  href={waPackageLink(p)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={openLeadForm}
                   className="mt-7 inline-flex justify-center items-center rounded-full px-6 py-3.5 text-sm font-bold text-white shadow-glow hover:scale-[1.03] transition-transform"
                   style={{ background: p.gradient }}
                 >
                   {p.cta}
-                </a>
+                </button>
               </div>
             </motion.div>
           ))}

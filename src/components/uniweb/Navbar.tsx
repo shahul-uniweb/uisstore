@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { openLeadForm } from "@/lib/lead-form";
 
 const links = [
   { label: "Home", href: "#home" },
@@ -55,12 +56,13 @@ export function Navbar() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <a
-              href="#packages"
+            <button
+              type="button"
+              onClick={openLeadForm}
               className="hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white bg-gradient-brand animate-gradient shadow-glow hover:scale-105 transition-transform"
             >
               Get Started
-            </a>
+            </button>
             <button
               aria-label="Menu"
               className="lg:hidden p-2 rounded-lg glass"
@@ -93,13 +95,16 @@ export function Navbar() {
                   {l.label}
                 </motion.a>
               ))}
-              <a
-                href="#packages"
-                onClick={() => setOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  openLeadForm();
+                }}
                 className="mt-2 inline-flex justify-center items-center rounded-full px-5 py-3 text-base font-semibold text-white bg-gradient-brand animate-gradient shadow-glow"
               >
                 Get Started
-              </a>
+              </button>
             </div>
           </motion.div>
         )}

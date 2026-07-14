@@ -15,6 +15,7 @@ import {
   Building2,
 } from "lucide-react";
 import { Logo } from "./Logo";
+import { openLeadForm } from "@/lib/lead-form";
 
 function TikTokIcon({ className = "" }: { className?: string }) {
   return (
@@ -118,9 +119,15 @@ export function Footer() {
               <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-white/50">
                 <Building2 className="h-4 w-4" /> Powered by
               </p>
-              <p className="mt-2 text-lg font-extrabold leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              <a
+                href="https://www.uniwebonline.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block text-lg font-extrabold leading-tight transition-colors hover:text-white/80"
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              >
                 Uniweb IT Solutions
-              </p>
+              </a>
               <p className="mt-1 text-xs text-white/60">Trusted technology partner since 2018.</p>
             </div>
             {stats.map((s, i) => (
@@ -158,16 +165,15 @@ export function Footer() {
             <p className="mt-5 max-w-md text-sm leading-relaxed text-white/70">
               Mobile-first, white-label e-commerce websites designed to launch fast and scale beautifully — built for ambitious brands in Kuwait &amp; beyond.
             </p>
-            <a
-              href="https://wa.me/message/W47MG2LLOHCBJ1"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openLeadForm}
               className="group mt-6 inline-flex items-center gap-2 rounded-full bg-gradient-warm px-6 py-3 text-sm font-bold text-white shadow-glow transition-transform hover:scale-105"
             >
               <MessageCircle className="h-4 w-4" />
-              Chat on WhatsApp
+              Request a Callback
               <ArrowUp className="h-4 w-4 rotate-45 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            </button>
           </motion.div>
 
           {/* contact */}
@@ -253,7 +259,7 @@ export function Footer() {
           <p className="flex items-center gap-1.5">
             Crafted with <span className="text-base text-[#E61C83]">♥</span> by{" "}
             <a
-              href="https://www.linkedin.com/company/uniweb-it-solutions/"
+              href="https://www.uniwebonline.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold text-white/70 transition-colors hover:text-white"

@@ -187,6 +187,16 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  // If reached via the admin.* subdomain (e.g. admin.uisstore.net), send the
+  // visitor straight to the admin panel. Requires a DNS record pointing
+  // admin.uisstore.net at this same site (see ADMIN-PANEL.md).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hostname.startsWith("admin.") && !window.location.pathname.startsWith("/admin")) {
+      window.location.replace("/admin");
+    }
+  }, []);
+
   // Client-only: init Firebase Analytics and log the visitor's IP location once.
   //
   // Deferred until the page has loaded AND the main thread is idle. Firing these
