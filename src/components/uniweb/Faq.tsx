@@ -4,7 +4,7 @@ import { Plus } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
 
 export const faqs = [
-  { q: "How much does an e-commerce website cost in Kuwait?", a: "UiS Store packages start at 450 K.D per year for the Basic package and 850 K.D per year for Advanced, with custom pricing for Premium. Every package includes hosting, domain, SSL certificate, delivery integration and 0% commission on your sales." },
+  { q: "How much does an e-commerce website cost in Kuwait?", a: "UiS Store packages start at just 250 K.D per year for the Starter package, 450 K.D for Basic and 850 K.D for Advanced, with custom pricing for Premium. Every package includes hosting, domain, SSL certificate, delivery integration and 0% commission on your sales." },
   { q: "What is UiS Store?", a: "UiS Store is a white-label e-commerce platform for building online stores in Kuwait and the GCC. It is a product of Uniweb IT Solutions, a Kuwait-based technology company with 8 years in the market, 60+ clients and 150+ delivered projects." },
   { q: "Do you build online stores in Arabic?", a: "Yes — every UiS Store package includes a fully bilingual English & Arabic online store with RTL support, built for customers in Kuwait and across the GCC." },
   { q: "Which payment gateways do you support in Kuwait?", a: "We integrate KNET, Visa, MasterCard and other regional payment gateways. The Basic package includes 1 gateway, Advanced includes 2, and Premium supports multiple custom gateways." },

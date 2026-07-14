@@ -6,6 +6,7 @@ import {
   MapPin,
   FileText,
   Users,
+  Search,
   LogOut,
   Menu as MenuIcon,
   X,
@@ -23,6 +24,7 @@ const ICONS: Record<MenuKey, typeof LayoutDashboard> = {
   dashboard: LayoutDashboard,
   visits: MapPin,
   forms: FileText,
+  "search-console": Search,
   users: Users,
 };
 

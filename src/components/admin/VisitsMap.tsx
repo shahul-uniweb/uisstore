@@ -1,8 +1,6 @@
 import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import "leaflet.markercluster/dist/MarkerCluster.css";
 import type { VisitRecord, LeadRecord } from "@/lib/admin";
 
 type MapPoint = {
@@ -10,7 +8,6 @@ type MapPoint = {
   longitude: number;
   city?: string;
   country?: string;
-  when: Date | null;
   kind: "visit" | "lead";
   // exact = pinpointed by the browser's GPS (a form submitter who allowed it),
   // as opposed to an approximate IP-based location.
@@ -24,7 +21,6 @@ const COLOR_IP = "#16A7E0"; // sky blue — approximate, from IP
 function toPoints(visits: VisitRecord[], leads: LeadRecord[]): MapPoint[] {
   const points: MapPoint[] = [];
   for (const v of visits) {
-    // A visit is "exact" only if the visitor granted GPS on their visit.
     const exact = !!(v.browserGeo?.latitude && v.browserGeo?.longitude);
     const loc = exact ? v.browserGeo! : v.ipLocation;
     if (loc?.latitude && loc?.longitude) {
@@ -33,14 +29,12 @@ function toPoints(visits: VisitRecord[], leads: LeadRecord[]): MapPoint[] {
         longitude: loc.longitude,
         city: "city" in loc ? loc.city : undefined,
         country: "country" in loc ? loc.country : undefined,
-        when: v.createdAt,
         kind: "visit",
         exact,
       });
     }
   }
   for (const l of leads) {
-    // Prefer the browser's exact GPS pin for leads when they granted it.
     const exact = !!(l.browserGeo?.latitude && l.browserGeo?.longitude);
     const loc = exact ? l.browserGeo! : l.ipLocation;
     if (loc?.latitude && loc?.longitude) {
@@ -49,7 +43,6 @@ function toPoints(visits: VisitRecord[], leads: LeadRecord[]): MapPoint[] {
         longitude: loc.longitude,
         city: "city" in loc ? loc.city : undefined,
         country: "country" in loc ? loc.country : undefined,
-        when: l.createdAt,
         kind: "lead",
         exact,
       });
@@ -58,27 +51,46 @@ function toPoints(visits: VisitRecord[], leads: LeadRecord[]): MapPoint[] {
   return points;
 }
 
-// Interactive OpenStreetMap (no API key required) showing every visit/lead that
-// has a resolvable location. Nearby points within ~1km are grouped into a
-// single marker sized by count, so dense cities don't turn into marker soup.
+// A perfectly-centred numbered bubble. Used for both cluster icons and single
+// markers, so counts always sit dead-centre.
+function bubbleHtml(count: number, color: string, exact: boolean) {
+  const size = Math.round(Math.min(28 + Math.log2(count + 1) * 8, 56));
+  const font = count >= 100 ? 11 : count >= 10 ? 13 : 14;
+  return {
+    html: `<div style="
+      box-sizing:border-box;width:${size}px;height:${size}px;
+      display:flex;align-items:center;justify-content:center;
+      background:${color};color:#fff;border:2px solid #fff;border-radius:9999px;
+      font:700 ${font}px sans-serif;box-shadow:0 4px 14px ${color}66;
+      ${exact ? "outline:2px solid " + color + "44;outline-offset:2px;" : ""}
+    ">${count}</div>`,
+    size,
+  };
+}
+
+// Interactive OpenStreetMap. Nearby points are clustered into one bubble whose
+// number is the SUM of visits underneath; zooming in splits them apart
+// (leaflet.markercluster). Bubble colour = magenta if the group contains any
+// exact GPS location, else sky-blue for IP-only.
 export function VisitsMap({ visits, leads }: { visits: VisitRecord[]; leads: LeadRecord[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<import("leaflet").Map | null>(null);
+  const clusterRef = useRef<import("leaflet").LayerGroup | null>(null);
   const resizeObsRef = useRef<ResizeObserver | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
-      const L = await import("leaflet");
+      // markercluster augments Leaflet's DEFAULT export object; the ESM namespace
+      // doesn't re-expose the added factory, so resolve to the default here.
+      const leafletMod = await import("leaflet");
+      const L = ((leafletMod as { default?: typeof import("leaflet") }).default ??
+        leafletMod) as typeof import("leaflet");
+      await import("leaflet.markercluster");
       if (cancelled || !containerRef.current) return;
 
-      // Fix default marker icon URLs, which break under bundlers otherwise.
-      delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl;
-      L.Icon.Default.mergeOptions({ iconRetinaUrl: markerIcon2x, iconUrl: markerIcon, shadowUrl: markerShadow });
-
       if (!mapRef.current) {
-        // Fully interactive: scroll-wheel + pinch zoom, drag, double-click zoom.
         mapRef.current = L.map(containerRef.current, {
           scrollWheelZoom: true,
           touchZoom: true,
@@ -91,10 +103,6 @@ export function VisitsMap({ visits, leads }: { visits: VisitRecord[]; leads: Lea
           maxZoom: 18,
         }).addTo(mapRef.current);
 
-        // Leaflet caches the container's pixel size at init. On mobile the
-        // container is often narrower/settling when that happens, so the map
-        // renders too wide and spills off-screen. Recompute after paint and on
-        // every container resize so it always fits the phone viewport.
         const map = mapRef.current;
         requestAnimationFrame(() => map.invalidateSize());
         setTimeout(() => map.invalidateSize(), 300);
@@ -105,63 +113,56 @@ export function VisitsMap({ visits, leads }: { visits: VisitRecord[]; leads: Lea
       }
       const map = mapRef.current;
 
-      // Clear previous markers (re-render on data change) without recreating the map.
-      map.eachLayer((layer) => {
-        if ((layer as unknown as { _isVisitMarker?: boolean })._isVisitMarker) map.removeLayer(layer);
+      // Rebuild the cluster layer on data change.
+      if (clusterRef.current) {
+        map.removeLayer(clusterRef.current);
+        clusterRef.current = null;
+      }
+
+      const Lc = L as unknown as {
+        markerClusterGroup: (opts: Record<string, unknown>) => import("leaflet").LayerGroup & {
+          addLayer: (l: unknown) => void;
+        };
+      };
+
+      const cluster = Lc.markerClusterGroup({
+        maxClusterRadius: 45,
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: true,
+        // Cluster bubble = sum of child visits, coloured by whether any child is exact.
+        iconCreateFunction: (c: {
+          getChildCount: () => number;
+          getAllChildMarkers: () => { options: { exact?: boolean } }[];
+        }) => {
+          const count = c.getChildCount();
+          const anyExact = c.getAllChildMarkers().some((m) => m.options.exact);
+          const { html, size } = bubbleHtml(count, anyExact ? COLOR_EXACT : COLOR_IP, anyExact);
+          return L.divIcon({ html, className: "uis-cluster", iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+        },
       });
 
       const points = toPoints(visits, leads);
-      const groups = new Map<string, MapPoint[]>();
       for (const p of points) {
-        // Group by city+country so IP-geolocation jitter (which returns slightly
-        // different coords per lookup) doesn't split one city into many markers.
-        // Exact GPS points stay on their own precise coordinate.
-        const key = p.exact
-          ? `gps:${p.latitude.toFixed(4)},${p.longitude.toFixed(4)}`
-          : p.city || p.country
-            ? `place:${(p.city ?? "").toLowerCase()}|${(p.country ?? "").toLowerCase()}`
-            : `coord:${p.latitude.toFixed(1)},${p.longitude.toFixed(1)}`;
-        const arr = groups.get(key) ?? [];
-        arr.push(p);
-        groups.set(key, arr);
-      }
-
-      for (const [, group] of groups) {
-        const [first] = group;
-        const visitCount = group.filter((g) => g.kind === "visit").length;
-        const leadCount = group.filter((g) => g.kind === "lead").length;
-        const total = group.length;
-        // Colour by location precision: magenta if this spot has any exact
-        // GPS-submitted location, sky-blue if it's only approximate (IP).
-        const isExact = group.some((g) => g.exact);
-        const color = isExact ? COLOR_EXACT : COLOR_IP;
-        // Bubble grows with count; the number sits inside it.
-        const size = Math.round(Math.min(24 + Math.log2(total + 1) * 8, 52));
-        const fontSize = total >= 100 ? 10 : total >= 10 ? 12 : 13;
-
-        const icon = L.divIcon({
-          className: "uis-visit-marker",
-          html: `<div style="
-            width:${size}px;height:${size}px;line-height:${size}px;
-            background:${color};color:#fff;border:2px solid #fff;border-radius:9999px;
-            text-align:center;font:700 ${fontSize}px sans-serif;
-            box-shadow:0 4px 12px ${color}66;">${total}</div>`,
-          iconSize: [size, size],
-          iconAnchor: [size / 2, size / 2],
+        const color = p.exact ? COLOR_EXACT : COLOR_IP;
+        const { html, size } = bubbleHtml(1, color, p.exact);
+        const icon = L.divIcon({ html, className: "uis-point", iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+        const marker = L.marker([p.latitude, p.longitude], {
+          icon,
+          // custom flag read back in iconCreateFunction
+          ...({ exact: p.exact } as object),
         });
-
-        const marker = L.marker([first.latitude, first.longitude], { icon });
-        (marker as unknown as { _isVisitMarker: boolean })._isVisitMarker = true;
-
         marker.bindPopup(
           `<div style="font-family:sans-serif;font-size:12px;min-width:150px">
-            <strong>${first.city ?? "Unknown city"}, ${first.country ?? "—"}</strong><br/>
-            ${visitCount} visit${visitCount === 1 ? "" : "s"}${leadCount ? `, ${leadCount} form submission${leadCount === 1 ? "" : "s"}` : ""}
-            <br/><span style="color:${color};font-weight:700">${isExact ? "📍 Exact (GPS allowed)" : "≈ Approx (by IP)"}</span>
+            <strong>${p.city ?? "Unknown city"}, ${p.country ?? "—"}</strong><br/>
+            ${p.kind === "lead" ? "Form submission" : "Visit"}
+            <br/><span style="color:${color};font-weight:700">${p.exact ? "📍 Exact (GPS allowed)" : "≈ Approx (by IP)"}</span>
           </div>`,
         );
-        marker.addTo(map);
+        cluster.addLayer(marker);
       }
+
+      map.addLayer(cluster);
+      clusterRef.current = cluster;
     })();
 
     return () => {

@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
-import { Users, Globe, UserPlus, Repeat, FileText, Loader2 } from "lucide-react";
+import { Users, Globe, UserPlus, Repeat, FileText, Loader2, Search, MousePointerClick, Eye, TrendingUp } from "lucide-react";
 import { format, subDays, startOfDay } from "date-fns";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { DateRangeFilter, presetToRange, DEFAULT_PRESET, type RangePreset } from "@/components/admin/DateRangeFilter";
 import { fetchVisits, fetchLeads, computeVisitAnalytics, type VisitRecord, type LeadRecord } from "@/lib/admin";
+import { scSummary, scQueries } from "@/lib/search-console-mock";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Route = createFileRoute("/admin/")({
@@ -41,6 +42,18 @@ function StatCard({
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function MiniStat({ icon: Icon, label, value, color }: { icon: typeof Users; label: string; value: string; color: string }) {
+  return (
+    <div className="rounded-xl border p-3">
+      <Icon className="h-4 w-4" style={{ color }} />
+      <p className="mt-1.5 text-lg font-extrabold" style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}>
+        {value}
+      </p>
+      <p className="text-[11px] text-muted-foreground">{label}</p>
+    </div>
   );
 }
 
@@ -153,6 +166,37 @@ function Dashboard() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Search Console snapshot (demo data) */}
+          <Card className="mt-6 border-none shadow-soft">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+              <CardTitle className="flex items-center gap-2 text-sm font-bold">
+                <Search className="h-4 w-4" style={{ color: "var(--brand-deep)" }} /> Google Search Console
+                <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">demo</span>
+              </CardTitle>
+              <Link to="/admin/search-console" className="text-xs font-semibold text-[var(--brand-deep)] hover:underline">
+                Open →
+              </Link>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-3 gap-3">
+                <MiniStat icon={MousePointerClick} label="Clicks" value={scSummary.clicks.toLocaleString()} color="#16A7E0" />
+                <MiniStat icon={Eye} label="Impressions" value={scSummary.impressions.toLocaleString()} color="#E61C83" />
+                <MiniStat icon={TrendingUp} label="Avg Position" value={scSummary.position.toFixed(1)} color="#0D7ABD" />
+              </div>
+              <p className="mt-4 mb-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Top keywords</p>
+              <div className="space-y-2">
+                {scQueries.slice(0, 4).map((q) => (
+                  <div key={q.key} className="flex items-center justify-between text-sm">
+                    <span className="truncate font-medium">{q.key}</span>
+                    <span className="ml-3 shrink-0 text-xs text-muted-foreground">
+                      {q.clicks} clicks · pos {q.position.toFixed(1)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
 
           <Card className="mt-6 border-none shadow-soft">
             <CardHeader className="flex flex-row items-center justify-between space-y-0">

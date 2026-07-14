@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "UiS Store builds bilingual English & Arabic e-commerce websites in Kuwait with KNET payments, GCC delivery, inventory and admin panel. Packages from 450 K.D/year — hosting, domain & SSL included. By Uniweb IT Solutions.",
+          "UiS Store builds bilingual English & Arabic e-commerce websites in Kuwait with KNET payments, GCC delivery, inventory and admin panel. Packages from 250 K.D/year — hosting, domain & SSL included. By Uniweb IT Solutions.",
       },
       {
         name: "keywords",
@@ -115,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Launch your online store in Kuwait: KNET payments, English & Arabic, GCC delivery, admin panel. Packages from 450 K.D/year with hosting, domain & SSL included.",
+          "Launch your online store in Kuwait: KNET payments, English & Arabic, GCC delivery, admin panel. Packages from 250 K.D/year with hosting, domain & SSL included.",
       },
       // Social share preview card (1200x630). The width/height/type hints let
       // WhatsApp, Facebook and LinkedIn lay the card out before the image finishes
@@ -128,7 +128,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:image:alt",
         content:
-          "UiS Store by Uniweb IT Solutions — e-commerce websites in Kuwait from 450 K.D per year",
+          "UiS Store by Uniweb IT Solutions — e-commerce websites in Kuwait from 250 K.D per year",
       },
       // Twitter — must be summary_large_image, or X renders a small square thumbnail.
       { name: "twitter:card", content: "summary_large_image" },
@@ -140,13 +140,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. From 450 K.D/year — by Uniweb IT Solutions.",
+          "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. From 250 K.D/year — by Uniweb IT Solutions.",
       },
       { name: "twitter:image", content: "https://uisstore.net/og-image.jpg" },
       {
         name: "twitter:image:alt",
         content:
-          "UiS Store by Uniweb IT Solutions — e-commerce websites in Kuwait from 450 K.D per year",
+          "UiS Store by Uniweb IT Solutions — e-commerce websites in Kuwait from 250 K.D per year",
       },
     ],
     links: [

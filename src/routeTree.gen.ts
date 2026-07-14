@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminVisitsRouteImport } from './routes/admin/visits'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminSearchConsoleRouteImport } from './routes/admin/search-console'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminFormsRouteImport } from './routes/admin/forms'
 
@@ -42,6 +43,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminSearchConsoleRoute = AdminSearchConsoleRouteImport.update({
+  id: '/search-console',
+  path: '/search-console',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/forms': typeof AdminFormsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/search-console': typeof AdminSearchConsoleRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/visits': typeof AdminVisitsRoute
   '/admin/': typeof AdminIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/forms': typeof AdminFormsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/search-console': typeof AdminSearchConsoleRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/visits': typeof AdminVisitsRoute
   '/admin': typeof AdminIndexRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/admin/forms': typeof AdminFormsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/search-console': typeof AdminSearchConsoleRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/visits': typeof AdminVisitsRoute
   '/admin/': typeof AdminIndexRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/forms'
     | '/admin/login'
+    | '/admin/search-console'
     | '/admin/users'
     | '/admin/visits'
     | '/admin/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/forms'
     | '/admin/login'
+    | '/admin/search-console'
     | '/admin/users'
     | '/admin/visits'
     | '/admin'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/forms'
     | '/admin/login'
+    | '/admin/search-console'
     | '/admin/users'
     | '/admin/visits'
     | '/admin/'
@@ -151,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/search-console': {
+      id: '/admin/search-console'
+      path: '/search-console'
+      fullPath: '/admin/search-console'
+      preLoaderRoute: typeof AdminSearchConsoleRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -171,6 +190,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminFormsRoute: typeof AdminFormsRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminSearchConsoleRoute: typeof AdminSearchConsoleRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminVisitsRoute: typeof AdminVisitsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -179,6 +199,7 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminFormsRoute: AdminFormsRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminSearchConsoleRoute: AdminSearchConsoleRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminVisitsRoute: AdminVisitsRoute,
   AdminIndexRoute: AdminIndexRoute,

@@ -14,14 +14,18 @@ commission on sales.
 
 ## Packages (per year)
 
-- **Basic — 450 K.D/year**: up to 1000 products, English & Arabic, 1 payment gateway,
-  0% commissions, inventory & delivery management, GCC delivery, 10 admin users,
+- **Starter — 250 K.D/year**: up to 100 products, English & Arabic, 1 payment gateway,
+  0% commissions, inventory & delivery management, GCC delivery, 1 admin user,
+  hosting, domain & SSL.
+- **Basic — 450 K.D/year**: up to 500 products, English & Arabic, 1 payment gateway,
+  0% commissions, inventory & delivery management, GCC delivery, 5 admin users,
   basic SEO, hosting, domain & SSL.
-- **Advanced — 850 K.D/year** (most popular): unlimited products, English & Arabic,
+- **Advanced — 850 K.D/year** (most popular): up to 1000 products, English & Arabic,
   2 payment gateways, 0% commissions, inventory & delivery management, GCC delivery,
-  unlimited admin users, standard SEO, hosting, domain & SSL.
+  10 admin users, standard SEO, hosting, domain & SSL.
 - **Premium — custom quote**: everything in Advanced plus Store Management App,
-  Point of Sales (P.O.S) system, multiple payment gateways and advanced SEO.
+  Point of Sales (P.O.S) system, multiple payment gateways, unlimited products/admins
+  and advanced SEO.
 
 ## Pages
 

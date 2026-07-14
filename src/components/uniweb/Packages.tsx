@@ -1,11 +1,31 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { SectionHeader } from "./SectionHeader";
-import { Check, FileDown, Sparkles, TableProperties, X } from "lucide-react";
-import brochurePdf from "@/assets/Uniweb Ecommerce Packages.pdf";
+import { Check, Sparkles, TableProperties, X } from "lucide-react";
 import { openLeadForm } from "@/lib/lead-form";
 
 const plans = [
+  {
+    name: "Starter",
+    price: "250",
+    unit: "K.D / Year",
+    ideal: "New & Small Shops",
+    cta: "Choose Starter",
+    color: "#0D7ABD",
+    gradient: "linear-gradient(135deg,#16A7E0 0%,#0D7ABD 100%)",
+    features: [
+      "Up to 100 Products",
+      "English & Arabic",
+      "1 Payment Gateway",
+      "0% Commissions",
+      "Inventory Management",
+      "Delivery Management",
+      "GCC Countries Delivery",
+      "1 Admin User",
+      "Hosting",
+      "Domain & SSL Certificate",
+    ],
+  },
   {
     name: "Basic",
     price: "450",
@@ -15,14 +35,14 @@ const plans = [
     color: "#16A7E0",
     gradient: "linear-gradient(135deg,#0D7ABD 0%,#16A7E0 100%)",
     features: [
-      "Up to 1000 Products",
+      "Up to 500 Products",
       "English & Arabic",
       "1 Payment Gateway",
       "0% Commissions",
       "Inventory Management",
       "Delivery Management",
       "GCC Countries Delivery",
-      "10 Admin Users",
+      "5 Admin Users",
       "Basic SEO Setup",
       "Hosting",
       "Domain & SSL Certificate",
@@ -38,14 +58,14 @@ const plans = [
     color: "#E61C83",
     gradient: "linear-gradient(135deg,#E61C83 0%,#F9A349 45%,#16A7E0 100%)",
     features: [
-      "Unlimited Products",
+      "Up to 1000 Products",
       "English & Arabic",
       "2 Payment Gateways",
       "0% Commissions",
       "Inventory Management",
       "Delivery Management",
       "GCC Countries Delivery",
-      "Unlimited Admin Users",
+      "10 Admin Users",
       "Standard SEO Setup",
       "Hosting",
       "Domain & SSL Certificate",
@@ -78,24 +98,24 @@ const plans = [
   },
 ];
 
-// Detailed comparison — mirrors the printed brochure table.
+// Detailed comparison — columns follow the `plans` order (Starter, Basic, Advanced, Premium).
 // `true` renders as an "Included" check; "—" renders as not included.
 const comparisonRows: { feature: string; values: (string | true)[] }[] = [
-  { feature: "Product Limit", values: ["Up to 1000", "Unlimited", "Unlimited"] },
-  { feature: "Store Management App", values: ["—", "—", true] },
-  { feature: "Language", values: ["English & Arabic", "English & Arabic", "English & Arabic"] },
-  { feature: "Payment Gateways", values: ["1 Gateway", "2 Gateways", "Multiple"] },
-  { feature: "Commissions", values: ["0%", "0%", "0%"] },
-  { feature: "Inventory Management", values: [true, true, true] },
-  { feature: "Delivery Management", values: [true, true, true] },
-  { feature: "Point of Sales (P.O.S)", values: ["—", "—", true] },
-  { feature: "GCC Countries Delivery", values: [true, true, true] },
-  { feature: "Admin Users", values: ["10 Admins", "Unlimited", "Unlimited"] },
-  { feature: "SEO Setup", values: ["Basic", "Standard", "Advanced"] },
-  { feature: "Technical Support", values: [true, true, true] },
-  { feature: "Hosting", values: [true, true, true] },
-  { feature: "Domain", values: [true, true, true] },
-  { feature: "SSL Certificate", values: [true, true, true] },
+  { feature: "Product Limit", values: ["Up to 100", "Up to 500", "Up to 1000", "Unlimited"] },
+  { feature: "Store Management App", values: ["—", "—", "—", true] },
+  { feature: "Language", values: ["English & Arabic", "English & Arabic", "English & Arabic", "English & Arabic"] },
+  { feature: "Payment Gateways", values: ["1 Gateway", "1 Gateway", "2 Gateways", "Multiple"] },
+  { feature: "Commissions", values: ["0%", "0%", "0%", "0%"] },
+  { feature: "Inventory Management", values: [true, true, true, true] },
+  { feature: "Delivery Management", values: [true, true, true, true] },
+  { feature: "Point of Sales (P.O.S)", values: ["—", "—", "—", true] },
+  { feature: "GCC Countries Delivery", values: [true, true, true, true] },
+  { feature: "Admin Users", values: ["1 Admin", "5 Admins", "10 Admins", "Unlimited"] },
+  { feature: "SEO Setup", values: ["—", "Basic", "Standard", "Advanced"] },
+  { feature: "Technical Support", values: [true, true, true, true] },
+  { feature: "Hosting", values: [true, true, true, true] },
+  { feature: "Domain", values: [true, true, true, true] },
+  { feature: "SSL Certificate", values: [true, true, true, true] },
 ];
 
 function IncludedCheck({ gradient }: { gradient: string }) {
@@ -135,7 +155,7 @@ function ComparisonModal({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 30, scale: 0.97 }}
         transition={{ type: "spring", stiffness: 260, damping: 24 }}
-        className="w-full max-w-4xl rounded-3xl p-[2px] bg-gradient-brand shadow-glow"
+        className="w-full max-w-5xl rounded-3xl p-[2px] bg-gradient-brand shadow-glow"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex max-h-[85vh] flex-col overflow-hidden rounded-[1.4rem] bg-white">
@@ -161,7 +181,7 @@ function ComparisonModal({ onClose }: { onClose: () => void }) {
 
           {/* scrollable table (vertical + horizontal on small screens) */}
           <div className="overflow-auto">
-            <table className="w-full min-w-[640px] text-sm">
+            <table className="w-full min-w-[820px] text-sm">
               <thead>
                 <tr>
                   <th className="sticky top-0 z-10 px-5 py-4 text-left text-xs font-bold uppercase tracking-widest text-white" style={{ background: "var(--brand-dark)" }}>
@@ -219,7 +239,7 @@ export function Packages() {
     <section id="packages" className="relative py-12 lg:py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#FFF7FB 0%,#FFFFFF 100%)" }}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="Pricing" title="Choose the Right Package for Your Business" subtitle="Transparent pricing. Real e-commerce features. Built for Kuwait & beyond." />
-        <div className="mt-14 grid gap-6 lg:gap-8 lg:grid-cols-3" style={{ perspective: "1400px" }}>
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-6 lg:grid-cols-4" style={{ perspective: "1400px" }}>
           {plans.map((p, i) => (
             <motion.div
               key={p.name}
@@ -241,9 +261,9 @@ export function Packages() {
                   <p className="text-xs font-bold uppercase tracking-widest" style={{ color: p.color }}>{p.name}</p>
                   <p className="mt-1 text-sm text-muted-foreground">Ideal for {p.ideal}</p>
                 </div>
-                <div className="mt-5 flex items-end gap-2">
-                  <span className="text-5xl font-extrabold" style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}>{p.price}</span>
-                  <span className="text-sm text-muted-foreground pb-2">{p.unit}</span>
+                <div className="mt-5 flex items-end gap-1.5">
+                  <span className="text-4xl font-extrabold" style={{ color: "var(--brand-dark)", fontFamily: "'Space Grotesk', sans-serif" }}>{p.price}</span>
+                  <span className="text-xs text-muted-foreground pb-1.5">{p.unit}</span>
                 </div>
                 <div className="h-px my-6" style={{ background: `${p.color}20` }} />
                 <ul className="space-y-3 flex-1">
@@ -281,7 +301,7 @@ export function Packages() {
           transition={{ duration: 0.5 }}
           className="mt-12 text-center"
         >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="flex items-center justify-center">
             <button
               onClick={() => setShowComparison(true)}
               className="group inline-flex items-center rounded-full p-[2px] bg-gradient-brand animate-gradient shadow-glow transition-transform hover:scale-[1.03] active:scale-95"
@@ -294,18 +314,9 @@ export function Packages() {
                 View Detailed Comparison
               </span>
             </button>
-            <a
-              href={brochurePdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-white bg-gradient-brand animate-gradient shadow-glow transition-transform hover:scale-[1.03] active:scale-95"
-            >
-              <FileDown className="h-4 w-4" />
-              View Brochure (PDF)
-            </a>
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            Compare all features side by side, or open the brochure to save and share.
+            Compare all features across the four packages, side by side.
           </p>
         </motion.div>
       </div>

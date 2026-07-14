@@ -49,7 +49,7 @@ const structuredData = {
       image: `${SITE}/og-image.jpg`,
       telephone: "+96565702446",
       email: "contact@uniwebonline.com",
-      priceRange: "450 K.D - Custom",
+      priceRange: "250 K.D - Custom",
       currenciesAccepted: "KWD",
       parentOrganization: { "@id": `${SITE}/#uniweb` },
       address: {
@@ -89,9 +89,23 @@ const structuredData = {
         itemListElement: [
           {
             "@type": "Offer",
+            name: "Starter Package",
+            description:
+              "Up to 100 products, English & Arabic, 1 payment gateway, 0% commissions, inventory & delivery management, GCC delivery, 1 admin user, hosting, domain & SSL.",
+            price: "250",
+            priceCurrency: "KWD",
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: "250",
+              priceCurrency: "KWD",
+              unitText: "per year",
+            },
+          },
+          {
+            "@type": "Offer",
             name: "Basic Package",
             description:
-              "Up to 1000 products, English & Arabic, 1 payment gateway, 0% commissions, inventory & delivery management, GCC delivery, 10 admin users, basic SEO, hosting, domain & SSL.",
+              "Up to 500 products, English & Arabic, 1 payment gateway, 0% commissions, inventory & delivery management, GCC delivery, 5 admin users, basic SEO, hosting, domain & SSL.",
             price: "450",
             priceCurrency: "KWD",
             priceSpecification: {
@@ -105,7 +119,7 @@ const structuredData = {
             "@type": "Offer",
             name: "Advanced Package",
             description:
-              "Unlimited products, English & Arabic, 2 payment gateways, 0% commissions, inventory & delivery management, GCC delivery, unlimited admin users, standard SEO, hosting, domain & SSL.",
+              "Up to 1000 products, English & Arabic, 2 payment gateways, 0% commissions, inventory & delivery management, GCC delivery, 10 admin users, standard SEO, hosting, domain & SSL.",
             price: "850",
             priceCurrency: "KWD",
             priceSpecification: {
@@ -139,20 +153,20 @@ const structuredData = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "E-Commerce Website Kuwait | Online Store Packages from 450 K.D — UiS Store" },
+      { title: "E-Commerce Website Kuwait | Online Store Packages from 250 K.D — UiS Store" },
       {
         name: "description",
         content:
-          "Build your online store in Kuwait with UiS Store: bilingual English & Arabic e-commerce websites with KNET payments, GCC delivery, inventory management and a powerful admin panel. Packages from 450 K.D/year — hosting, domain & SSL included. By Uniweb IT Solutions.",
+          "Build your online store in Kuwait with UiS Store: bilingual English & Arabic e-commerce websites with KNET payments, GCC delivery, inventory management and a powerful admin panel. Packages from 250 K.D/year — hosting, domain & SSL included. By Uniweb IT Solutions.",
       },
       {
         property: "og:title",
-        content: "E-Commerce Website Kuwait | Online Store Packages from 450 K.D — UiS Store",
+        content: "E-Commerce Website Kuwait | Online Store Packages from 250 K.D — UiS Store",
       },
       {
         property: "og:description",
         content:
-          "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. Packages from 450 K.D/year — hosting, domain & SSL included.",
+          "Bilingual e-commerce websites in Kuwait with KNET payments, GCC delivery and admin panel. Packages from 250 K.D/year — hosting, domain & SSL included.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE}/` },

@@ -33,12 +33,13 @@ const SUPER_ADMIN_NAMES: Record<string, string> = {
   "aneeshbabu@uniwebonline.com": "Aneesh Babu",
 };
 
-export type MenuKey = "dashboard" | "visits" | "forms" | "users";
+export type MenuKey = "dashboard" | "visits" | "forms" | "search-console" | "users";
 
 export const MENU_ITEMS: { key: MenuKey; label: string; path: string }[] = [
   { key: "dashboard", label: "Dashboard", path: "/admin" },
   { key: "visits", label: "Visits & Map", path: "/admin/visits" },
   { key: "forms", label: "Forms", path: "/admin/forms" },
+  { key: "search-console", label: "Search Console", path: "/admin/search-console" },
   { key: "users", label: "Users", path: "/admin/users" },
 ];
 
@@ -349,7 +350,7 @@ export type VisitRecord = {
 export const LEAD_STATUSES = ["New", "Contacted", "Interested", "Converted", "Lost"] as const;
 export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
-export const LEAD_PACKAGES = ["Basic", "Advanced", "Premium", "Custom", "Undecided"] as const;
+export const LEAD_PACKAGES = ["Starter", "Basic", "Advanced", "Premium", "Custom", "Undecided"] as const;
 export type LeadPackage = (typeof LEAD_PACKAGES)[number];
 
 // Editable CRM fields a sales admin can fill in on a lead after it comes in.
