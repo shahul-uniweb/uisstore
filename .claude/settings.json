@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bunx tsc *)",
+      "Bash(bun run *)",
+      "Bash(NODE_PATH=\"/c/Users/alpha/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules\" node \"C:\\\\Users\\\\alpha\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-alpha-Documents-Uniweb-IT-Solutions-Uniweb-eCommerce-eCommerce-Brochure-uis-store\\\\a1439447-8170-46f4-ab8c-232405c99366\\\\scratchpad\\\\login-check.cjs\")"
+    ]
+  }
+}

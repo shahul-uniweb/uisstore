@@ -406,25 +406,29 @@ export async function fetchVisits(max = 2000, range?: DateRange): Promise<VisitR
   const { collection, getDocs, orderBy, query, limit } = await import("firebase/firestore/lite");
   const cons = await rangeConstraints(range);
   const snap = await getDocs(query(collection(db, "visits"), ...cons, orderBy("createdAt", "desc"), limit(max)));
-  return snap.docs.map((d) => {
-    const v = d.data();
-    return {
-      id: d.id,
-      ipLocation: v.ipLocation ?? null,
-      browserGeo: v.browserGeo ?? null,
-      visitorId: v.visitorId,
-      isReturning: v.isReturning === true,
-      source: v.source,
-      browser: v.browser,
-      os: v.os,
-      device: v.device,
-      userAgent: v.userAgent,
-      language: v.language,
-      referrer: v.referrer ?? null,
-      page: v.page,
-      createdAt: tsToDate(v.createdAt),
-    };
-  });
+  return snap.docs
+    .map((d) => {
+      const v = d.data();
+      return {
+        id: d.id,
+        ipLocation: v.ipLocation ?? null,
+        browserGeo: v.browserGeo ?? null,
+        visitorId: v.visitorId,
+        isReturning: v.isReturning === true,
+        source: v.source,
+        browser: v.browser,
+        os: v.os,
+        device: v.device,
+        userAgent: v.userAgent,
+        language: v.language,
+        referrer: v.referrer ?? null,
+        page: v.page,
+        createdAt: tsToDate(v.createdAt),
+      } as VisitRecord;
+    })
+    // Exclude admin-panel visits from public analytics. New visits already skip
+    // /admin at capture time; this also drops any old records logged before that.
+    .filter((v) => !(v.page && v.page.startsWith("/admin")));
 }
 
 export async function fetchLeads(max = 2000, range?: DateRange): Promise<LeadRecord[]> {
@@ -472,6 +476,14 @@ export async function updateLead(id: string, fields: LeadCrmFields): Promise<voi
     if (val !== undefined) clean[k] = val;
   }
   await updateDoc(doc(db, "leads", id), clean);
+}
+
+// Permanently deletes a lead. Requires the Firestore rule to allow delete on
+// /leads for signed-in admins (see ADMIN-PANEL.md).
+export async function deleteLead(id: string): Promise<void> {
+  const db = await getDb();
+  const { doc, deleteDoc } = await import("firebase/firestore/lite");
+  await deleteDoc(doc(db, "leads", id));
 }
 
 // Creates a lead by hand from the admin panel. Defaults source to "Manual"

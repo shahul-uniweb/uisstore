@@ -127,7 +127,7 @@ export async function saveLead(data: LeadInput): Promise<boolean> {
       userAgent: navigator.userAgent,
       language: navigator.language,
       referrer: document.referrer || null,
-      page: location.pathname,
+      page: location.pathname + location.hash,
       createdAt: serverTimestamp(),
     });
     return true;
@@ -299,7 +299,7 @@ export async function logVisit(): Promise<void> {
       userAgent: navigator.userAgent,
       language: navigator.language,
       referrer: document.referrer || null,
-      page: location.pathname,
+      page: location.pathname + location.hash,
       createdAt: serverTimestamp(),
     });
   } catch (e) {

@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Lock, Mail, LogIn, Sparkles } from "lucide-react";
+import { Lock, Mail, LogIn, Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAdminAuth } from "@/components/admin/AdminAuthProvider";
 import { signInAdmin, sendAdminPasswordReset, bootstrapSuperAdmin, isSuperAdminEmail } from "@/lib/admin";
@@ -35,6 +35,7 @@ function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const [offerBootstrap, setOfferBootstrap] = useState(false);
 
@@ -49,7 +50,12 @@ function AdminLogin() {
     setSubmitting(true);
     try {
       await signInAdmin(email.trim(), password);
+      // Keep showing the loader (don't reset `submitting`) while the auth watcher
+      // loads the profile/roles and the redirect happens — avoids a flash of the
+      // login form after a successful sign-in.
+      setRedirecting(true);
       navigate({ to: "/admin" });
+      return;
     } catch (err) {
       if (isNoSuchAccount(err) && isSuperAdminEmail(email.trim())) {
         // Could be a first-ever sign-in for a permanent super admin, or just a
@@ -105,8 +111,20 @@ function AdminLogin() {
     }
   };
 
-  if (loading || profile) {
-    return <div className="min-h-screen" style={{ background: "linear-gradient(160deg,#131C30 0%,#0A0E1A 100%)" }} />;
+  // While auth state is resolving, the user is already signed in, or we're
+  // redirecting after a successful sign-in → show a loader, never the form.
+  if (loading || profile || redirecting) {
+    return (
+      <div
+        className="flex min-h-screen flex-col items-center justify-center gap-3"
+        style={{ background: "linear-gradient(160deg,#131C30 0%,#0A0E1A 100%)" }}
+      >
+        <Logo className="h-12 w-12 animate-pulse" />
+        <div className="flex items-center gap-2 text-sm text-white/60">
+          <Loader2 className="h-4 w-4 animate-spin" /> Signing you in…
+        </div>
+      </div>
+    );
   }
 
   return (

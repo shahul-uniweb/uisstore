@@ -22,14 +22,16 @@ function StatCard({
   label,
   value,
   color,
+  to,
 }: {
   icon: typeof Users;
   label: string;
   value: string | number;
   color: string;
+  to?: string; // if set, the whole card links to that admin page
 }) {
-  return (
-    <Card className="border-none shadow-soft">
+  const inner = (
+    <Card className={`border-none shadow-soft transition ${to ? "cursor-pointer hover:-translate-y-0.5 hover:shadow-glow" : ""}`}>
       <CardContent className="flex items-center gap-4 p-5">
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl" style={{ background: `${color}18` }}>
           <Icon className="h-5 w-5" style={{ color }} />
@@ -42,6 +44,13 @@ function StatCard({
         </div>
       </CardContent>
     </Card>
+  );
+  return to ? (
+    <Link to={to} className="block">
+      {inner}
+    </Link>
+  ) : (
+    inner
   );
 }
 
@@ -122,14 +131,14 @@ function Dashboard() {
       ) : (
         <>
           <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <StatCard icon={Globe} label="Total Visits" value={stats?.total ?? 0} color="#16A7E0" />
-            <StatCard icon={Users} label="Unique Visitors" value={stats?.unique ?? 0} color="#E61C83" />
-            <StatCard icon={UserPlus} label="New Visitors" value={stats?.newVisitors ?? 0} color="#F9A349" />
-            <StatCard icon={Repeat} label="Returning" value={stats?.returning ?? 0} color="#0D7ABD" />
+            <StatCard icon={Globe} label="Total Visits" value={stats?.total ?? 0} color="#16A7E0" to="/admin/visits" />
+            <StatCard icon={Users} label="Unique Visitors" value={stats?.unique ?? 0} color="#E61C83" to="/admin/visits" />
+            <StatCard icon={UserPlus} label="New Visitors" value={stats?.newVisitors ?? 0} color="#F9A349" to="/admin/visits" />
+            <StatCard icon={Repeat} label="Returning" value={stats?.returning ?? 0} color="#0D7ABD" to="/admin/visits" />
           </div>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <StatCard icon={FileText} label="Form Submissions" value={leads?.length ?? 0} color="#0D7ABD" />
-            <StatCard icon={Repeat} label="Returning Rate" value={`${stats && stats.total ? Math.round((stats.returning / stats.total) * 100) : 0}%`} color="#E61C83" />
+            <StatCard icon={FileText} label="Form Submissions" value={leads?.length ?? 0} color="#0D7ABD" to="/admin/forms" />
+            <StatCard icon={Repeat} label="Returning Rate" value={`${stats && stats.total ? Math.round((stats.returning / stats.total) * 100) : 0}%`} color="#E61C83" to="/admin/visits" />
           </div>
 
           <div className="mt-6 grid gap-6 lg:grid-cols-[1.6fr_1fr]">

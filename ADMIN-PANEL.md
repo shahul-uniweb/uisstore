@@ -17,7 +17,7 @@ Paste this in **Firebase Console → Firestore Database → Rules → Publish**:
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /leads/{doc}  { allow create: if true; allow read, update: if request.auth != null; allow delete: if false; }
+    match /leads/{doc}  { allow create: if true; allow read, update, delete: if request.auth != null; }
     match /visits/{doc} { allow create: if true; allow read: if request.auth != null; allow delete: if false; }
     match /users/{doc}  { allow read, write: if request.auth != null; }
   }

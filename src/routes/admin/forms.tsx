@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
-import { Loader2, MessageCircle, Pencil, MapPin, Save, Plus, Search, UserPlus } from "lucide-react";
+import { Loader2, MessageCircle, Pencil, MapPin, Save, Plus, Search, UserPlus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { presetToRange, type RangePreset } from "@/components/admin/DateRangeFilter";
+import { presetToRange, presetLabel, PRESET_ORDER, type RangePreset } from "@/components/admin/DateRangeFilter";
 import {
   fetchLeads,
   updateLead,
+  deleteLead,
   createLeadManually,
   LEAD_STATUSES,
   LEAD_PACKAGES,
@@ -52,14 +53,6 @@ function StatusBadge({ status }: { status?: LeadStatus }) {
   return <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_STYLES[s]}`}>{s}</span>;
 }
 
-const DATE_PRESETS: { value: RangePreset; label: string }[] = [
-  { value: "all", label: "All Dates" },
-  { value: "this-month", label: "This Month" },
-  { value: "last-month", label: "Last Month" },
-  { value: "last-3-months", label: "Last 3 Months" },
-  { value: "this-year", label: "This Year" },
-];
-
 function FormsPage() {
   const [leads, setLeads] = useState<LeadRecord[] | null>(null);
   const [error, setError] = useState("");
@@ -79,6 +72,17 @@ function FormsPage() {
   };
 
   useEffect(load, []);
+
+  const removeLead = async (l: LeadRecord) => {
+    if (!window.confirm(`Delete this lead (${l.customerName || l.name || l.mobile})? This cannot be undone.`)) return;
+    try {
+      await deleteLead(l.id);
+      toast.success("Lead deleted");
+      load();
+    } catch {
+      toast.error("Couldn't delete — check Firestore rules allow deleting /leads.");
+    }
+  };
 
   const filtered = useMemo(() => {
     if (!leads) return [];
@@ -165,8 +169,8 @@ function FormsPage() {
               value={datePreset}
               onChange={(v) => setDatePreset(v as RangePreset)}
               placeholder="All Dates"
-              options={DATE_PRESETS.map((d) => d.value)}
-              labelFor={(v) => DATE_PRESETS.find((d) => d.value === v)?.label ?? v}
+              options={PRESET_ORDER}
+              labelFor={(v) => (v === "all" ? "All Dates" : presetLabel(v as RangePreset))}
             />
           </div>
 
@@ -212,7 +216,7 @@ function FormsPage() {
                         {l.createdAt ? format(l.createdAt, "MMM d, yyyy · HH:mm") : "—"}
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="flex justify-end gap-1.5">
+                        <div className="flex justify-end gap-0.5">
                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setSelected(l)} aria-label="Edit lead" title="Edit / details">
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -221,6 +225,9 @@ function FormsPage() {
                               <MessageCircle className="h-4 w-4" />
                             </Button>
                           </a>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => removeLead(l)} aria-label="Delete lead" title="Delete">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       </TableCell>
                     </TableRow>
