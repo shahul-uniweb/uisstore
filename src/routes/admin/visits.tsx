@@ -6,6 +6,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { VisitsMap } from "@/components/admin/VisitsMap";
 import { BreakdownCard } from "@/components/admin/BreakdownCard";
 import { DateRangeFilter, presetToRange, DEFAULT_PRESET, type RangePreset } from "@/components/admin/DateRangeFilter";
+import { TimeRangeFilter, inTimeWindow, ALL_HOURS, type TimeWindow } from "@/components/admin/TimeRangeFilter";
 import { Button } from "@/components/ui/button";
 import {
   fetchVisits,
@@ -63,43 +64,43 @@ function StatCard({
 }
 
 function VisitsPage() {
-  const [visits, setVisits] = useState<VisitRecord[] | null>(null);
-  const [leads, setLeads] = useState<LeadRecord[] | null>(null);
+  const [visitsRaw, setVisitsRaw] = useState<VisitRecord[] | null>(null);
+  const [leadsRaw, setLeadsRaw] = useState<LeadRecord[] | null>(null);
   const [error, setError] = useState("");
   const [preset, setPreset] = useState<RangePreset>(DEFAULT_PRESET);
+  const [time, setTime] = useState<TimeWindow>(ALL_HOURS);
 
   useEffect(() => {
-    setVisits(null);
+    setVisitsRaw(null);
     const range = presetToRange(preset);
     Promise.all([fetchVisits(2000, range), fetchLeads(2000, range)])
       .then(([v, l]) => {
-        setVisits(v);
-        setLeads(l);
+        setVisitsRaw(v);
+        setLeadsRaw(l);
       })
       .catch(() => setError("Couldn't load visits — check Firestore rules allow reading /visits."));
   }, [preset]);
 
+  // The time-of-day window filters everything on the page (stats, map, table).
+  const visits = useMemo(
+    () => (visitsRaw === null ? null : visitsRaw.filter((v) => inTimeWindow(v.createdAt, time))),
+    [visitsRaw, time],
+  );
+  const leads = useMemo(
+    () => (leadsRaw === null ? null : leadsRaw.filter((l) => inTimeWindow(l.createdAt, time))),
+    [leadsRaw, time],
+  );
+
   const stats = useMemo(() => (visits ? computeVisitAnalytics(visits) : null), [visits]);
   const located = useMemo(() => (visits ?? []).filter((v) => v.ipLocation?.latitude && v.ipLocation?.longitude), [visits]);
 
-  // Separate date filter + pagination for the All Visits TABLE only (client-side,
-  // independent of the page-level filter that controls the fetch/analytics).
-  const [tablePreset, setTablePreset] = useState<RangePreset>("all");
+  // Pagination for the All Visits table (no separate filter — it follows the
+  // page-level date + time filters).
   const [pageNum, setPageNum] = useState(1);
   const PER_PAGE = 25;
-
-  const tableVisits = useMemo(() => {
-    const list = visits ?? [];
-    const r = presetToRange(tablePreset);
-    return list.filter((v) => {
-      if (r.since && v.createdAt && v.createdAt < r.since) return false;
-      if (r.until && v.createdAt && v.createdAt > r.until) return false;
-      return true;
-    });
-  }, [visits, tablePreset]);
-
+  const tableVisits = visits ?? [];
   const totalPages = Math.max(1, Math.ceil(tableVisits.length / PER_PAGE));
-  useEffect(() => setPageNum(1), [tablePreset, visits]);
+  useEffect(() => setPageNum(1), [preset, time, visitsRaw]);
   useEffect(() => {
     if (pageNum > totalPages) setPageNum(totalPages);
   }, [pageNum, totalPages]);
@@ -114,7 +115,10 @@ function VisitsPage() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">Every visitor to uisstore.net, located by IP address.</p>
         </div>
-        <DateRangeFilter value={preset} onChange={setPreset} />
+        <div className="flex flex-wrap items-center gap-2">
+          <DateRangeFilter value={preset} onChange={setPreset} />
+          <TimeRangeFilter value={time} onChange={setTime} />
+        </div>
       </div>
 
       {error && (
@@ -200,16 +204,13 @@ function VisitsPage() {
           </Card>
 
           <Card className="mt-4 border-none shadow-soft lg:mt-6">
-            <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <CardHeader>
               <CardTitle className="text-sm font-bold">
                 All Visits{" "}
                 <span className="font-normal text-muted-foreground">
-                  ({tableVisits.length}
-                  {tableVisits.length !== (visits?.length ?? 0) ? ` of ${visits?.length}` : ""} total, {located.length} located)
+                  ({tableVisits.length} total, {located.length} located)
                 </span>
               </CardTitle>
-              {/* table-only date filter, separate from the page filter above */}
-              <DateRangeFilter value={tablePreset} onChange={setTablePreset} />
             </CardHeader>
             <CardContent>
               <Table>

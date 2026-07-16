@@ -151,11 +151,21 @@ export function VisitsMap({ visits, leads }: { visits: VisitRecord[]; leads: Lea
           // custom flag read back in iconCreateFunction
           ...({ exact: p.exact } as object),
         });
+        // Google Maps link: exact points open the precise pin; approximate ones
+        // open a search for the city/country (falling back to the coords).
+        const mapsUrl = p.exact
+          ? `https://www.google.com/maps?q=${p.latitude},${p.longitude}`
+          : p.city || p.country
+            ? `https://www.google.com/maps/search/${encodeURIComponent([p.city, p.country].filter(Boolean).join(", "))}`
+            : `https://www.google.com/maps?q=${p.latitude},${p.longitude}`;
         marker.bindPopup(
-          `<div style="font-family:sans-serif;font-size:12px;min-width:150px">
+          `<div style="font-family:sans-serif;font-size:12px;min-width:160px">
             <strong>${p.city ?? "Unknown city"}, ${p.country ?? "—"}</strong><br/>
             ${p.kind === "lead" ? "Form submission" : "Visit"}
             <br/><span style="color:${color};font-weight:700">${p.exact ? "📍 Exact (GPS allowed)" : "≈ Approx (by IP)"}</span>
+            <br/><a href="${mapsUrl}" target="_blank" rel="noopener noreferrer"
+              style="display:inline-block;margin-top:6px;font-weight:700;color:#0D7ABD;text-decoration:none">
+              Open in Google Maps →</a>
           </div>`,
         );
         cluster.addLayer(marker);

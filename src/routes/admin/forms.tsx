@@ -5,6 +5,7 @@ import { Loader2, MessageCircle, Pencil, MapPin, Save, Plus, Search, UserPlus, T
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { presetToRange, presetLabel, PRESET_ORDER, type RangePreset } from "@/components/admin/DateRangeFilter";
+import { TimeRangeFilter, inTimeWindow, ALL_HOURS, type TimeWindow } from "@/components/admin/TimeRangeFilter";
 import {
   fetchLeads,
   updateLead,
@@ -64,6 +65,7 @@ function FormsPage() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sourceFilter, setSourceFilter] = useState<string>("all");
   const [datePreset, setDatePreset] = useState<RangePreset>("all");
+  const [time, setTime] = useState<TimeWindow>(ALL_HOURS);
 
   const load = () => {
     fetchLeads(5000)
@@ -93,6 +95,7 @@ function FormsPage() {
       if (sourceFilter !== "all" && (l.source ?? "Manual") !== sourceFilter) return false;
       if (range.since && l.createdAt && l.createdAt < range.since) return false;
       if (range.until && l.createdAt && l.createdAt > range.until) return false;
+      if (!inTimeWindow(l.createdAt, time)) return false;
       if (q) {
         const hay = [
           l.customerName,
@@ -112,7 +115,7 @@ function FormsPage() {
       }
       return true;
     });
-  }, [leads, search, statusFilter, sourceFilter, datePreset]);
+  }, [leads, search, statusFilter, sourceFilter, datePreset, time]);
 
   return (
     <div>
@@ -172,6 +175,7 @@ function FormsPage() {
               options={PRESET_ORDER}
               labelFor={(v) => (v === "all" ? "All Dates" : presetLabel(v as RangePreset))}
             />
+            <TimeRangeFilter value={time} onChange={setTime} />
           </div>
 
           <Card className="mt-4 border-none shadow-soft">

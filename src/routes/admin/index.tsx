@@ -5,6 +5,7 @@ import { Users, Globe, UserPlus, Repeat, FileText, Loader2, Search, MousePointer
 import { format, subDays, startOfDay } from "date-fns";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { DateRangeFilter, presetToRange, DEFAULT_PRESET, type RangePreset } from "@/components/admin/DateRangeFilter";
+import { TimeRangeFilter, inTimeWindow, ALL_HOURS, type TimeWindow } from "@/components/admin/TimeRangeFilter";
 import { fetchVisits, fetchLeads, computeVisitAnalytics, type VisitRecord, type LeadRecord } from "@/lib/admin";
 import { scSummary, scQueries } from "@/lib/search-console-mock";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -78,22 +79,33 @@ function buildDailySeries(visits: VisitRecord[], leads: LeadRecord[]) {
 }
 
 function Dashboard() {
-  const [visits, setVisits] = useState<VisitRecord[] | null>(null);
-  const [leads, setLeads] = useState<LeadRecord[] | null>(null);
+  const [visitsRaw, setVisitsRaw] = useState<VisitRecord[] | null>(null);
+  const [leadsRaw, setLeadsRaw] = useState<LeadRecord[] | null>(null);
   const [error, setError] = useState("");
   const [preset, setPreset] = useState<RangePreset>(DEFAULT_PRESET);
+  const [time, setTime] = useState<TimeWindow>(ALL_HOURS);
 
   useEffect(() => {
-    setVisits(null);
-    setLeads(null);
+    setVisitsRaw(null);
+    setLeadsRaw(null);
     const range = presetToRange(preset);
     Promise.all([fetchVisits(2000, range), fetchLeads(2000, range)])
       .then(([v, l]) => {
-        setVisits(v);
-        setLeads(l);
+        setVisitsRaw(v);
+        setLeadsRaw(l);
       })
       .catch(() => setError("Couldn't load data — check Firestore rules allow reading /visits and /leads."));
   }, [preset]);
+
+  // Time-of-day filter applies to everything on the dashboard.
+  const visits = useMemo(
+    () => (visitsRaw === null ? null : visitsRaw.filter((v) => inTimeWindow(v.createdAt, time))),
+    [visitsRaw, time],
+  );
+  const leads = useMemo(
+    () => (leadsRaw === null ? null : leadsRaw.filter((l) => inTimeWindow(l.createdAt, time))),
+    [leadsRaw, time],
+  );
 
   const series = useMemo(() => (visits && leads ? buildDailySeries(visits, leads) : []), [visits, leads]);
   const stats = useMemo(() => (visits ? computeVisitAnalytics(visits) : null), [visits]);
@@ -115,7 +127,10 @@ function Dashboard() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">Overview of website visitors and form submissions.</p>
         </div>
-        <DateRangeFilter value={preset} onChange={setPreset} />
+        <div className="flex flex-wrap items-center gap-2">
+          <DateRangeFilter value={preset} onChange={setPreset} />
+          <TimeRangeFilter value={time} onChange={setTime} />
+        </div>
       </div>
 
       {error && (
